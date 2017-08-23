@@ -787,6 +787,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hankinsoft.sqlpro.libpq;
 				PRODUCT_NAME = libpq;
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -820,6 +821,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hankinsoft.sqlpro.libpq;
 				PRODUCT_NAME = libpq;
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
