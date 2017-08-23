@@ -18,3 +18,4 @@ FOUNDATION_EXPORT const unsigned char libpqVersionString[];
 
 #import "libpq-fe.h"
 #include "postgres_ext.h"
+#include "pg_config_ext.h"
