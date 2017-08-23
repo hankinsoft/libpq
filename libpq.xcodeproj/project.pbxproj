@@ -95,8 +95,8 @@
 		723884CB1F4DBAF400A25B74 /* pg_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 723884BC1F4DBAF400A25B74 /* pg_config.h */; };
 		723884CC1F4DBAF400A25B74 /* port.h in Headers */ = {isa = PBXBuildFile; fileRef = 723884BD1F4DBAF400A25B74 /* port.h */; };
 		723884CD1F4DBAF400A25B74 /* port.h in Headers */ = {isa = PBXBuildFile; fileRef = 723884BD1F4DBAF400A25B74 /* port.h */; };
-		723884CE1F4DBAF400A25B74 /* postgres_ext.h in Headers */ = {isa = PBXBuildFile; fileRef = 723884BE1F4DBAF400A25B74 /* postgres_ext.h */; };
-		723884CF1F4DBAF400A25B74 /* postgres_ext.h in Headers */ = {isa = PBXBuildFile; fileRef = 723884BE1F4DBAF400A25B74 /* postgres_ext.h */; };
+		723884CE1F4DBAF400A25B74 /* postgres_ext.h in Headers */ = {isa = PBXBuildFile; fileRef = 723884BE1F4DBAF400A25B74 /* postgres_ext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		723884CF1F4DBAF400A25B74 /* postgres_ext.h in Headers */ = {isa = PBXBuildFile; fileRef = 723884BE1F4DBAF400A25B74 /* postgres_ext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		723884D01F4DBAF400A25B74 /* postgres_fe.h in Headers */ = {isa = PBXBuildFile; fileRef = 723884BF1F4DBAF400A25B74 /* postgres_fe.h */; };
 		723884D11F4DBAF400A25B74 /* postgres_fe.h in Headers */ = {isa = PBXBuildFile; fileRef = 723884BF1F4DBAF400A25B74 /* postgres_fe.h */; };
 		723884D31F4DBB3C00A25B74 /* fe_memutils.c in Sources */ = {isa = PBXBuildFile; fileRef = 723884D21F4DBB3C00A25B74 /* fe_memutils.c */; };
@@ -363,6 +363,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				723884CE1F4DBAF400A25B74 /* postgres_ext.h in Headers */,
 				723884851F4DBA6800A25B74 /* libpq-fe.h in Headers */,
 				723884A91F4DBAAF00A25B74 /* md5.h in Headers */,
 				723884CC1F4DBAF400A25B74 /* port.h in Headers */,
@@ -386,7 +387,6 @@
 				723884D01F4DBAF400A25B74 /* postgres_fe.h in Headers */,
 				723884911F4DBA6800A25B74 /* pqexpbuffer.h in Headers */,
 				723884B11F4DBACB00A25B74 /* pg_wchar.h in Headers */,
-				723884CE1F4DBAF400A25B74 /* postgres_ext.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +394,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				723884CF1F4DBAF400A25B74 /* postgres_ext.h in Headers */,
 				723884861F4DBA6800A25B74 /* libpq-fe.h in Headers */,
 				723884AA1F4DBAAF00A25B74 /* md5.h in Headers */,
 				723884CD1F4DBAF400A25B74 /* port.h in Headers */,
@@ -417,7 +418,6 @@
 				723884D11F4DBAF400A25B74 /* postgres_fe.h in Headers */,
 				723884921F4DBA6800A25B74 /* pqexpbuffer.h in Headers */,
 				723884B21F4DBACB00A25B74 /* pg_wchar.h in Headers */,
-				723884CF1F4DBAF400A25B74 /* postgres_ext.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

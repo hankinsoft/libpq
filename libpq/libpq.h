@@ -17,3 +17,4 @@ FOUNDATION_EXPORT const unsigned char libpqVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <libpq/PublicHeader.h>
 
 #import "libpq-fe.h"
+#include "postgres_ext.h"
