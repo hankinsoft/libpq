@@ -67,16 +67,16 @@
 		845C92992105AF9B00FD6E63 /* pg_wchar.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C923E2105AF9A00FD6E63 /* pg_wchar.h */; };
 		845C929A2105AF9B00FD6E63 /* pg_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C923F2105AF9A00FD6E63 /* pg_config.h */; };
 		845C929B2105AF9B00FD6E63 /* pg_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C923F2105AF9A00FD6E63 /* pg_config.h */; };
-		845C929C2105AF9B00FD6E63 /* pg_config_ext.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92402105AF9A00FD6E63 /* pg_config_ext.h */; };
-		845C929D2105AF9B00FD6E63 /* pg_config_ext.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92402105AF9A00FD6E63 /* pg_config_ext.h */; };
+		845C929C2105AF9B00FD6E63 /* pg_config_ext.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92402105AF9A00FD6E63 /* pg_config_ext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		845C929D2105AF9B00FD6E63 /* pg_config_ext.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92402105AF9A00FD6E63 /* pg_config_ext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		845C929E2105AF9B00FD6E63 /* pg_config_manual.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92412105AF9A00FD6E63 /* pg_config_manual.h */; };
 		845C929F2105AF9B00FD6E63 /* pg_config_manual.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92412105AF9A00FD6E63 /* pg_config_manual.h */; };
 		845C92A02105AF9B00FD6E63 /* pg_config_os.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92422105AF9A00FD6E63 /* pg_config_os.h */; };
 		845C92A12105AF9B00FD6E63 /* pg_config_os.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92422105AF9A00FD6E63 /* pg_config_os.h */; };
 		845C92A22105AF9B00FD6E63 /* port.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92432105AF9A00FD6E63 /* port.h */; };
 		845C92A32105AF9B00FD6E63 /* port.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92432105AF9A00FD6E63 /* port.h */; };
-		845C92A42105AF9B00FD6E63 /* postgres_ext.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92442105AF9A00FD6E63 /* postgres_ext.h */; };
-		845C92A52105AF9B00FD6E63 /* postgres_ext.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92442105AF9A00FD6E63 /* postgres_ext.h */; };
+		845C92A42105AF9B00FD6E63 /* postgres_ext.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92442105AF9A00FD6E63 /* postgres_ext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		845C92A52105AF9B00FD6E63 /* postgres_ext.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92442105AF9A00FD6E63 /* postgres_ext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		845C92A62105AF9B00FD6E63 /* postgres_fe.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92452105AF9A00FD6E63 /* postgres_fe.h */; };
 		845C92A72105AF9B00FD6E63 /* postgres_fe.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92452105AF9A00FD6E63 /* postgres_fe.h */; };
 		845C92A82105AF9B00FD6E63 /* palloc.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92472105AF9A00FD6E63 /* palloc.h */; };
@@ -109,8 +109,8 @@
 		845C92C32105AF9B00FD6E63 /* libpq-events.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C92562105AF9A00FD6E63 /* libpq-events.c */; };
 		845C92C42105AF9B00FD6E63 /* libpq-events.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92572105AF9A00FD6E63 /* libpq-events.h */; };
 		845C92C52105AF9B00FD6E63 /* libpq-events.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92572105AF9A00FD6E63 /* libpq-events.h */; };
-		845C92C62105AF9B00FD6E63 /* libpq-fe.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92582105AF9A00FD6E63 /* libpq-fe.h */; };
-		845C92C72105AF9B00FD6E63 /* libpq-fe.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92582105AF9A00FD6E63 /* libpq-fe.h */; };
+		845C92C62105AF9B00FD6E63 /* libpq-fe.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92582105AF9A00FD6E63 /* libpq-fe.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		845C92C72105AF9B00FD6E63 /* libpq-fe.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92582105AF9A00FD6E63 /* libpq-fe.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		845C92C82105AF9B00FD6E63 /* libpq-int.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92592105AF9A00FD6E63 /* libpq-int.h */; };
 		845C92C92105AF9B00FD6E63 /* libpq-int.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C92592105AF9A00FD6E63 /* libpq-int.h */; };
 		845C92CA2105AF9B00FD6E63 /* pqexpbuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C925A2105AF9A00FD6E63 /* pqexpbuffer.c */; };
@@ -481,22 +481,22 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				845C929C2105AF9B00FD6E63 /* pg_config_ext.h in Headers */,
+				845C92A42105AF9B00FD6E63 /* postgres_ext.h in Headers */,
+				845C92C62105AF9B00FD6E63 /* libpq-fe.h in Headers */,
 				845C92962105AF9B00FD6E63 /* scram.h in Headers */,
 				845C92C82105AF9B00FD6E63 /* libpq-int.h in Headers */,
 				845C92A22105AF9B00FD6E63 /* port.h in Headers */,
 				845C928A2105AF9B00FD6E63 /* sha2.h in Headers */,
 				845C92882105AF9B00FD6E63 /* scram-common.h in Headers */,
-				845C929C2105AF9B00FD6E63 /* pg_config_ext.h in Headers */,
 				845C927C2105AF9B00FD6E63 /* c.h in Headers */,
 				845C929A2105AF9B00FD6E63 /* pg_config.h in Headers */,
 				845C92802105AF9B00FD6E63 /* fe_memutils.h in Headers */,
 				7282B5AD1F4DB8C4007AA006 /* libpq.h in Headers */,
 				845C92A82105AF9B00FD6E63 /* palloc.h in Headers */,
-				845C92A42105AF9B00FD6E63 /* postgres_ext.h in Headers */,
 				845C92842105AF9B00FD6E63 /* md5.h in Headers */,
 				845C929E2105AF9B00FD6E63 /* pg_config_manual.h in Headers */,
 				845C92902105AF9B00FD6E63 /* getaddrinfo.h in Headers */,
-				845C92C62105AF9B00FD6E63 /* libpq-fe.h in Headers */,
 				845C93DB2105B37B00FD6E63 /* libpq-Prefix.pch in Headers */,
 				845C92D82105AF9B00FD6E63 /* pg_config_paths.h in Headers */,
 				845C92942105AF9B00FD6E63 /* pqcomm.h in Headers */,
@@ -519,22 +519,22 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				845C929D2105AF9B00FD6E63 /* pg_config_ext.h in Headers */,
+				845C92A52105AF9B00FD6E63 /* postgres_ext.h in Headers */,
+				845C92C72105AF9B00FD6E63 /* libpq-fe.h in Headers */,
 				845C92972105AF9B00FD6E63 /* scram.h in Headers */,
 				845C92C92105AF9B00FD6E63 /* libpq-int.h in Headers */,
 				845C92A32105AF9B00FD6E63 /* port.h in Headers */,
 				845C928B2105AF9B00FD6E63 /* sha2.h in Headers */,
 				845C92892105AF9B00FD6E63 /* scram-common.h in Headers */,
-				845C929D2105AF9B00FD6E63 /* pg_config_ext.h in Headers */,
 				845C927D2105AF9B00FD6E63 /* c.h in Headers */,
 				845C929B2105AF9B00FD6E63 /* pg_config.h in Headers */,
 				845C92812105AF9B00FD6E63 /* fe_memutils.h in Headers */,
 				7282B5B71F4DB8D5007AA006 /* libpq.h in Headers */,
 				845C92A92105AF9B00FD6E63 /* palloc.h in Headers */,
-				845C92A52105AF9B00FD6E63 /* postgres_ext.h in Headers */,
 				845C92852105AF9B00FD6E63 /* md5.h in Headers */,
 				845C929F2105AF9B00FD6E63 /* pg_config_manual.h in Headers */,
 				845C92912105AF9B00FD6E63 /* getaddrinfo.h in Headers */,
-				845C92C72105AF9B00FD6E63 /* libpq-fe.h in Headers */,
 				845C93DC2105B37B00FD6E63 /* libpq-Prefix.pch in Headers */,
 				845C92D92105AF9B00FD6E63 /* pg_config_paths.h in Headers */,
 				845C92952105AF9B00FD6E63 /* pqcomm.h in Headers */,
