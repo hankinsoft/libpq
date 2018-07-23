@@ -28,6 +28,9 @@
 /* The normal alignment of `long long int', in bytes. */
 /* #undef ALIGNOF_LONG_LONG_INT */
 
+/* The normal alignment of `PG_INT128_TYPE', in bytes. */
+#define ALIGNOF_PG_INT128_TYPE 16
+
 /* The normal alignment of `short', in bytes. */
 #define ALIGNOF_SHORT 2
 
@@ -83,7 +86,7 @@
 #endif
 
 /* Define to 1 if you have the `append_history' function. */
-#define HAVE_APPEND_HISTORY 1
+/* #undef HAVE_APPEND_HISTORY */
 
 /* Define to 1 if you have the `ASN1_STRING_get0_data' function. */
 /* #undef HAVE_ASN1_STRING_GET0_DATA */
@@ -105,6 +108,12 @@
 
 /* Define to 1 if you have the `class' function. */
 /* #undef HAVE_CLASS */
+
+/* Define to 1 if you have the `clock_gettime' function. */
+#define HAVE_CLOCK_GETTIME 1
+
+/* Define to 1 if your compiler handles computed gotos. */
+#define HAVE_COMPUTED_GOTO 1
 
 /* Define to 1 if you have the <crtdefs.h> header file. */
 /* #undef HAVE_CRTDEFS_H */
@@ -334,10 +343,6 @@
 /* Define to 1 if you have the `z' library (-lz). */
 #define HAVE_LIBZ 1
 
-/* Define to 1 if constants of type 'long long int' should have the suffix LL.
-   */
-/* #undef HAVE_LL_CONSTANTS */
-
 /* Define to 1 if the system has the type `locale_t'. */
 #define HAVE_LOCALE_T 1
 
@@ -368,9 +373,6 @@
 /* Define to 1 if you have the `mkdtemp' function. */
 #define HAVE_MKDTEMP 1
 
-/* Define to 1 if you have the <netinet/in.h> header file. */
-#define HAVE_NETINET_IN_H 1
-
 /* Define to 1 if you have the <netinet/tcp.h> header file. */
 #define HAVE_NETINET_TCP_H 1
 
@@ -395,6 +397,9 @@
 /* Define to 1 if you have the `posix_fadvise' function. */
 /* #undef HAVE_POSIX_FADVISE */
 
+/* Define to 1 if you have the `posix_fallocate' function. */
+/* #undef HAVE_POSIX_FALLOCATE */
+
 /* Define to 1 if the assembler supports PPC's LWARX mutex hint bit. */
 /* #undef HAVE_PPC_LWARX_MUTEX_HINT */
 
@@ -412,9 +417,6 @@
 
 /* Have PTHREAD_PRIO_INHERIT. */
 #define HAVE_PTHREAD_PRIO_INHERIT 1
-
-/* Define to 1 if you have the <pwd.h> header file. */
-#define HAVE_PWD_H 1
 
 /* Define to 1 if you have the `random' function. */
 #define HAVE_RANDOM 1
@@ -448,7 +450,7 @@
 #define HAVE_RL_FILENAME_COMPLETION_FUNCTION 1
 
 /* Define to 1 if you have the `rl_reset_screen_size' function. */
-#define HAVE_RL_RESET_SCREEN_SIZE 1
+/* #undef HAVE_RL_RESET_SCREEN_SIZE */
 
 /* Define to 1 if you have the <security/pam_appl.h> header file. */
 #define HAVE_SECURITY_PAM_APPL_H 1
@@ -497,6 +499,9 @@
 
 /* Define to 1 if you have the `strlcpy' function. */
 #define HAVE_STRLCPY 1
+
+/* Define to use have a strong random number source */
+#define HAVE_STRONG_RANDOM 1
 
 /* Define to 1 if you have the `strtoll' function. */
 #define HAVE_STRTOLL 1
@@ -552,14 +557,8 @@
 /* Define to 1 if you have the <sys/epoll.h> header file. */
 /* #undef HAVE_SYS_EPOLL_H */
 
-/* Define to 1 if you have the <sys/ioctl.h> header file. */
-#define HAVE_SYS_IOCTL_H 1
-
 /* Define to 1 if you have the <sys/ipc.h> header file. */
 #define HAVE_SYS_IPC_H 1
-
-/* Define to 1 if you have the <sys/poll.h> header file. */
-#define HAVE_SYS_POLL_H 1
 
 /* Define to 1 if you have the <sys/pstat.h> header file. */
 /* #undef HAVE_SYS_PSTAT_H */
@@ -576,9 +575,6 @@
 /* Define to 1 if you have the <sys/shm.h> header file. */
 #define HAVE_SYS_SHM_H 1
 
-/* Define to 1 if you have the <sys/socket.h> header file. */
-#define HAVE_SYS_SOCKET_H 1
-
 /* Define to 1 if you have the <sys/sockio.h> header file. */
 #define HAVE_SYS_SOCKIO_H 1
 
@@ -587,9 +583,6 @@
 
 /* Define to 1 if you have the <sys/tas.h> header file. */
 /* #undef HAVE_SYS_TAS_H */
-
-/* Define to 1 if you have the <sys/time.h> header file. */
-#define HAVE_SYS_TIME_H 1
 
 /* Define to 1 if you have the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES_H 1
@@ -609,6 +602,9 @@
 
 /* Define to 1 if you have the `towlower' function. */
 #define HAVE_TOWLOWER 1
+
+/* Define to 1 if your compiler understands `typeof' or something similar. */
+#define HAVE_TYPEOF 1
 
 /* Define to 1 if you have the external array `tzname'. */
 #define HAVE_TZNAME 1
@@ -728,7 +724,7 @@
 #define PACKAGE_NAME "PostgreSQL"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PostgreSQL 9.6.1"
+#define PACKAGE_STRING "PostgreSQL 10.4"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "postgresql"
@@ -737,7 +733,10 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "9.6.1"
+#define PACKAGE_VERSION "10.4"
+
+/* Define to the name of a signed 128-bit integer type. */
+/* #undef PG_INT128_TYPE __int128 */
 
 /* Define to the name of a signed 64-bit integer type. */
 #define PG_INT64_TYPE long int
@@ -747,19 +746,19 @@
 #define PG_KRB_SRVNAM "postgres"
 
 /* PostgreSQL major version as a string */
-#define PG_MAJORVERSION "9.6"
+#define PG_MAJORVERSION "10"
 
 /* Define to gnu_printf if compiler supports it, else printf. */
 #define PG_PRINTF_ATTRIBUTE printf
 
 /* PostgreSQL version as a string */
-#define PG_VERSION "9.6.1"
+#define PG_VERSION "10.4"
 
 /* PostgreSQL version as a number */
-#define PG_VERSION_NUM 90601
+#define PG_VERSION_NUM 100004
 
 /* A string containing the version number, platform, and C compiler */
-#define PG_VERSION_STR "PostgreSQL 9.6.1 on x86_64-apple-darwin16.1.0, compiled by Apple LLVM version 8.0.0 (clang-800.0.42.1), 64-bit"
+#define PG_VERSION_STR "PostgreSQL 10.4 on x86_64-apple-darwin17.7.0, compiled by Apple LLVM version 9.1.0 (clang-902.0.39.2), 64-bit"
 
 /* Define to 1 to allow profiling output to be saved separately for each
    process. */
@@ -812,6 +811,9 @@
 /* Define to 1 to build with BSD Authentication support. (--with-bsd-auth) */
 /* #undef USE_BSD_AUTH */
 
+/* Define to use /dev/urandom for random number generation */
+/* #undef USE_DEV_URANDOM */
+
 /* Define to 1 if you want float4 values to be passed by value.
    (--enable-float4-byval) */
 #define USE_FLOAT4_BYVAL 1
@@ -820,9 +822,8 @@
    (--enable-float8-byval) */
 #define USE_FLOAT8_BYVAL 1
 
-/* Define to 1 if you want 64-bit integer timestamp and interval support.
-   (--enable-integer-datetimes) */
-#define USE_INTEGER_DATETIMES 1
+/* Define to build with ICU support. (--with-icu) */
+/* #undef USE_ICU */
 
 /* Define to 1 to build with LDAP support. (--with-ldap) */
 /* #undef USE_LDAP */
@@ -840,19 +841,22 @@
 /* Define to build with OpenSSL support. (--with-openssl) */
 #define USE_OPENSSL 1
 
+/* Define to use OpenSSL for random number generation */
+#define USE_OPENSSL_RANDOM 1
+
 /* Define to 1 to build with PAM support. (--with-pam) */
 #define USE_PAM 1
 
 /* Use replacement snprintf() functions. */
 /* #undef USE_REPL_SNPRINTF */
 
-/* Define to 1 to use Intel SSE 4.2 CRC instructions with a runtime check. */
+/* Define to 1 to use software CRC-32C implementation (slicing-by-8). */
 /* #undef USE_SLICING_BY_8_CRC32C */
 
 /* Define to 1 use Intel SSE 4.2 CRC instructions. */
 /* #undef USE_SSE42_CRC32C */
 
-/* Define to 1 to use Intel SSSE 4.2 CRC instructions with a runtime check. */
+/* Define to 1 to use Intel SSE 4.2 CRC instructions with a runtime check. */
 #define USE_SSE42_CRC32C_WITH_RUNTIME_CHECK 1
 
 /* Define to build with systemd support. (--with-systemd) */
@@ -866,6 +870,9 @@
 
 /* Define to select unnamed POSIX semaphores. */
 /* #undef USE_UNNAMED_POSIX_SEMAPHORES */
+
+/* Define to use native Windows API for random number generation */
+/* #undef USE_WIN32_RANDOM */
 
 /* Define to select Win32-style semaphores. */
 /* #undef USE_WIN32_SEMAPHORES */
@@ -923,6 +930,9 @@
 
 /* Define to empty if the C compiler does not understand signed types. */
 /* #undef signed */
+
+/* Define to how the compiler spells `typeof'. */
+/* #undef typeof */
 
 /* Define to the type of an unsigned integer type wide enough to hold a
    pointer, if such a type exists, and if the system does not define it. */

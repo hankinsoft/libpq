@@ -3,7 +3,7 @@
  * fe-protocol3.c
  *	  functions that are specific to frontend/backend protocol version 3
  *
- * Portions Copyright (c) 1996-2016, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2017, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
  *
@@ -183,7 +183,7 @@ pqParseInput3(PGconn *conn)
 			else
 			{
 				pqInternalNotice(&conn->noticeHooks,
-						"message type 0x%02x arrived from server while idle",
+								 "message type 0x%02x arrived from server while idle",
 								 id);
 				/* Discard the unexpected message */
 				conn->inCursor += msgLength;
@@ -246,11 +246,11 @@ pqParseInput3(PGconn *conn)
 						if (conn->result == NULL)
 						{
 							conn->result = PQmakeEmptyPGresult(conn,
-														   PGRES_COMMAND_OK);
+															   PGRES_COMMAND_OK);
 							if (!conn->result)
 							{
 								printfPQExpBuffer(&conn->errorMessage,
-											 libpq_gettext("out of memory"));
+												  libpq_gettext("out of memory"));
 								pqSaveErrorResult(conn);
 							}
 						}
@@ -326,11 +326,11 @@ pqParseInput3(PGconn *conn)
 						if (conn->result == NULL)
 						{
 							conn->result = PQmakeEmptyPGresult(conn,
-														   PGRES_COMMAND_OK);
+															   PGRES_COMMAND_OK);
 							if (!conn->result)
 							{
 								printfPQExpBuffer(&conn->errorMessage,
-											 libpq_gettext("out of memory"));
+												  libpq_gettext("out of memory"));
 								pqSaveErrorResult(conn);
 							}
 						}
@@ -451,14 +451,14 @@ handleSyncLoss(PGconn *conn, char id, int msgLength)
 {
 	printfPQExpBuffer(&conn->errorMessage,
 					  libpq_gettext(
-	"lost synchronization with server: got message type \"%c\", length %d\n"),
+									"lost synchronization with server: got message type \"%c\", length %d\n"),
 					  id, msgLength);
 	/* build an error result holding the error message */
 	pqSaveErrorResult(conn);
 	conn->asyncStatus = PGASYNC_READY;	/* drop out of GetResult wait loop */
 	/* flush input data since we're giving up on processing it */
 	pqDropConnection(conn, true);
-	conn->status = CONNECTION_BAD;		/* No more connection to backend */
+	conn->status = CONNECTION_BAD;	/* No more connection to backend */
 }
 
 /*
@@ -881,6 +881,14 @@ pqGetErrorNotice3(PGconn *conn, bool isError)
 	char		id;
 
 	/*
+	 * If this is an error message, pre-emptively clear any incomplete query
+	 * result we may have.  We'd just throw it away below anyway, and
+	 * releasing it before collecting the error might avoid out-of-memory.
+	 */
+	if (isError)
+		pqClearAsyncResult(conn);
+
+	/*
 	 * Since the fields might be pretty long, we create a temporary
 	 * PQExpBuffer rather than using conn->workBuffer.  workBuffer is intended
 	 * for stuff that is expected to be short.  We shouldn't use
@@ -944,7 +952,7 @@ pqGetErrorNotice3(PGconn *conn, bool isError)
 	{
 		if (res)
 			res->errMsg = pqResultStrdup(res, workBuf.data);
-		pqClearAsyncResult(conn);
+		pqClearAsyncResult(conn);	/* redundant, but be safe */
 		conn->result = res;
 		if (PQExpBufferDataBroken(workBuf))
 			printfPQExpBuffer(&conn->errorMessage,
@@ -1679,7 +1687,7 @@ pqGetCopyData3(PGconn *conn, char **buffer, int async)
 				return -2;
 			}
 			memcpy(*buffer, &conn->inBuffer[conn->inCursor], msgLength);
-			(*buffer)[msgLength] = '\0';		/* Add terminating null */
+			(*buffer)[msgLength] = '\0';	/* Add terminating null */
 
 			/* Mark message consumed */
 			conn->inStart = conn->inCursor + msgLength;
@@ -1708,7 +1716,7 @@ pqGetline3(PGconn *conn, char *s, int maxlen)
 		conn->copy_is_binary)
 	{
 		printfPQExpBuffer(&conn->errorMessage,
-					  libpq_gettext("PQgetline: not doing text COPY OUT\n"));
+						  libpq_gettext("PQgetline: not doing text COPY OUT\n"));
 		*s = '\0';
 		return EOF;
 	}
@@ -1915,8 +1923,8 @@ pqFunctionCall3(PGconn *conn, Oid fnid,
 
 	if (pqPutMsgStart('F', false, conn) < 0 ||	/* function call msg */
 		pqPutInt(fnid, 4, conn) < 0 ||	/* function id */
-		pqPutInt(1, 2, conn) < 0 ||		/* # of format codes */
-		pqPutInt(1, 2, conn) < 0 ||		/* format code: BINARY */
+		pqPutInt(1, 2, conn) < 0 || /* # of format codes */
+		pqPutInt(1, 2, conn) < 0 || /* format code: BINARY */
 		pqPutInt(nargs, 2, conn) < 0)	/* # of args */
 	{
 		pqHandleSendFailure(conn);
@@ -1951,7 +1959,7 @@ pqFunctionCall3(PGconn *conn, Oid fnid,
 		}
 	}
 
-	if (pqPutInt(1, 2, conn) < 0)		/* result format code: BINARY */
+	if (pqPutInt(1, 2, conn) < 0)	/* result format code: BINARY */
 	{
 		pqHandleSendFailure(conn);
 		return NULL;

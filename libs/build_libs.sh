@@ -17,7 +17,7 @@ set -e
 ###################################
 # 		 OpenSSL Version
 ###################################
-OPENSSL_VERSION="openssl-1.0.2d"
+OPENSSL_VERSION="openssl-1.0.2o"
 ###################################
 
 ###################################
@@ -29,12 +29,12 @@ IOS_SDK_VERSION=$(xcodebuild -version -sdk iphoneos | grep SDKVersion | cut -f2 
 ################################################
 # 		 Minimum iOS deployment target version
 ################################################
-MIN_IOS_VERSION="7.0"
+MIN_IOS_VERSION="10.0"
 
 ################################################
 # 		 Minimum OS X deployment target version
 ################################################
-MIN_OSX_VERSION="10.7"
+MIN_OSX_VERSION="10.10"
 
 echo "----------------------------------------"
 echo "OpenSSL version: ${OPENSSL_VERSION}"
@@ -71,17 +71,18 @@ buildMac()
 buildIOS()
 {
 	ARCH=$1
-	echo "Start Building ${OPENSSL_VERSION} for ${PLATFORM} ${IOS_SDK_VERSION} ${ARCH}"
-	
-	pushd . > /dev/null
-	cd "${OPENSSL_VERSION}"
-  
+
 	if [[ "${ARCH}" == "i386" || "${ARCH}" == "x86_64" ]]; then
 		PLATFORM="iPhoneSimulator"
 	else
 		PLATFORM="iPhoneOS"
 		sed -ie "s!static volatile sig_atomic_t intr_signal;!static volatile intr_signal;!" "crypto/ui/ui_openssl.c"
 	fi
+
+	echo "Start Building ${OPENSSL_VERSION} for ${PLATFORM} ${IOS_SDK_VERSION} ${ARCH}"
+	
+	pushd . > /dev/null
+	cd "${OPENSSL_VERSION}"
   
 	export $PLATFORM
 	export CROSS_TOP="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
@@ -108,12 +109,12 @@ buildIOS()
 	echo "Done Building ${OPENSSL_VERSION} for ${ARCH}"
 }
 echo "Cleaning up"
-rm -rf include/openssl/* lib/*
+rm -rf ../include/openssl/* macOS/* iOS/*
 rm -rf /tmp/${OPENSSL_VERSION}-*
 rm -rf ${OPENSSL_VERSION}
-mkdir -p lib/iOS
-mkdir -p lib/Mac
-mkdir -p include/openssl/
+mkdir -p iOS
+mkdir -p macOS
+mkdir -p ../include/openssl/
 rm -rf "/tmp/${OPENSSL_VERSION}-*"
 rm -rf "/tmp/${OPENSSL_VERSION}-*.log"
 rm -rf "${OPENSSL_VERSION}"
@@ -128,16 +129,16 @@ tar xfz "${OPENSSL_VERSION}.tar.gz"
 buildMac "i386"
 buildMac "x86_64"
 echo "Copying headers"
-cp /tmp/${OPENSSL_VERSION}-i386/include/openssl/* include/openssl/
+cp /tmp/${OPENSSL_VERSION}-i386/include/openssl/* ../include/openssl/
 echo "Building Mac libraries"
 lipo \
 	"/tmp/${OPENSSL_VERSION}-i386/lib/libcrypto.a" \
 	"/tmp/${OPENSSL_VERSION}-x86_64/lib/libcrypto.a" \
-	-create -output lib/Mac/libcrypto.a
+	-create -output macOS/libcrypto.a
 lipo \
 	"/tmp/${OPENSSL_VERSION}-i386/lib/libssl.a" \
 	"/tmp/${OPENSSL_VERSION}-x86_64/lib/libssl.a" \
-	-create -output lib/Mac/libssl.a
+	-create -output macOS/libssl.a
 buildIOS "armv7"
 buildIOS "arm64"
 buildIOS "x86_64"
@@ -148,13 +149,13 @@ lipo \
 	"/tmp/${OPENSSL_VERSION}-iOS-arm64/lib/libcrypto.a" \
 	"/tmp/${OPENSSL_VERSION}-iOS-i386/lib/libcrypto.a" \
 	"/tmp/${OPENSSL_VERSION}-iOS-x86_64/lib/libcrypto.a" \
-	-create -output lib/iOS/libcrypto.a
+	-create -output iOS/libcrypto.a
 lipo \
 	"/tmp/${OPENSSL_VERSION}-iOS-armv7/lib/libssl.a" \
 	"/tmp/${OPENSSL_VERSION}-iOS-arm64/lib/libssl.a" \
 	"/tmp/${OPENSSL_VERSION}-iOS-i386/lib/libssl.a" \
 	"/tmp/${OPENSSL_VERSION}-iOS-x86_64/lib/libssl.a" \
-	-create -output lib/iOS/libssl.a
+	-create -output iOS/libssl.a
 echo "Cleaning up"
 rm -rf /tmp/${OPENSSL_VERSION}-*
 rm -rf ${OPENSSL_VERSION}
