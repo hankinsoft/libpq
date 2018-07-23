@@ -11,6 +11,8 @@
 		723E13CB1F4DBE8700F57E13 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 723E13C91F4DBE8700F57E13 /* libssl.a */; };
 		723E13CE1F4DBE8D00F57E13 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 723E13CC1F4DBE8D00F57E13 /* libcrypto.a */; };
 		723E13CF1F4DBE8D00F57E13 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 723E13CD1F4DBE8D00F57E13 /* libssl.a */; };
+		727887322105FBC6000BB4CD /* libpqTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 727887312105FBC6000BB4CD /* libpqTests.m */; };
+		727887342105FBC6000BB4CD /* libpq.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7282B5A81F4DB8C4007AA006 /* libpq.framework */; };
 		7282B5AD1F4DB8C4007AA006 /* libpq.h in Headers */ = {isa = PBXBuildFile; fileRef = 7282B5AB1F4DB8C4007AA006 /* libpq.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7282B5B71F4DB8D5007AA006 /* libpq.h in Headers */ = {isa = PBXBuildFile; fileRef = 7282B5AB1F4DB8C4007AA006 /* libpq.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		845C92682105AF9B00FD6E63 /* encnames.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C92212105AF9A00FD6E63 /* encnames.c */; };
@@ -139,11 +141,24 @@
 		845C93DC2105B37B00FD6E63 /* libpq-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 845C93DA2105B37B00FD6E63 /* libpq-Prefix.pch */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		727887352105FBC6000BB4CD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7282B59F1F4DB8C4007AA006 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7282B5A71F4DB8C4007AA006;
+			remoteInfo = "libpq-macos";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		723E13C81F4DBE8700F57E13 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = libs/iOS/libcrypto.a; sourceTree = "<group>"; };
 		723E13C91F4DBE8700F57E13 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = libs/iOS/libssl.a; sourceTree = "<group>"; };
 		723E13CC1F4DBE8D00F57E13 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = libs/macOS/libcrypto.a; sourceTree = "<group>"; };
 		723E13CD1F4DBE8D00F57E13 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = libs/macOS/libssl.a; sourceTree = "<group>"; };
+		7278872F2105FBC6000BB4CD /* libpqTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = libpqTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		727887312105FBC6000BB4CD /* libpqTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = libpqTests.m; sourceTree = "<group>"; };
+		727887332105FBC6000BB4CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7282B5A81F4DB8C4007AA006 /* libpq.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libpq.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7282B5AB1F4DB8C4007AA006 /* libpq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libpq.h; sourceTree = "<group>"; };
 		7282B5BC1F4DB8D5007AA006 /* libpq.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libpq.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -214,6 +229,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7278872C2105FBC6000BB4CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				727887342105FBC6000BB4CD /* libpq.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7282B5A41F4DB8C4007AA006 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -246,10 +269,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		727887302105FBC6000BB4CD /* libpqTests */ = {
+			isa = PBXGroup;
+			children = (
+				727887312105FBC6000BB4CD /* libpqTests.m */,
+				727887332105FBC6000BB4CD /* Info.plist */,
+			);
+			path = libpqTests;
+			sourceTree = "<group>";
+		};
 		7282B59E1F4DB8C4007AA006 = {
 			isa = PBXGroup;
 			children = (
 				7282B5AA1F4DB8C4007AA006 /* libpq */,
+				727887302105FBC6000BB4CD /* libpqTests */,
 				7282B5A91F4DB8C4007AA006 /* Products */,
 				723E13C71F4DBE8700F57E13 /* Frameworks */,
 			);
@@ -260,6 +293,7 @@
 			children = (
 				7282B5A81F4DB8C4007AA006 /* libpq.framework */,
 				7282B5BC1F4DB8D5007AA006 /* libpq.framework */,
+				7278872F2105FBC6000BB4CD /* libpqTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -522,6 +556,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		7278872E2105FBC6000BB4CD /* libpqTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 727887392105FBC6000BB4CD /* Build configuration list for PBXNativeTarget "libpqTests" */;
+			buildPhases = (
+				7278872B2105FBC6000BB4CD /* Sources */,
+				7278872C2105FBC6000BB4CD /* Frameworks */,
+				7278872D2105FBC6000BB4CD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				727887362105FBC6000BB4CD /* PBXTargetDependency */,
+			);
+			name = libpqTests;
+			productName = libpqTests;
+			productReference = 7278872F2105FBC6000BB4CD /* libpqTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		7282B5A71F4DB8C4007AA006 /* libpq-macos */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7282B5B01F4DB8C4007AA006 /* Build configuration list for PBXNativeTarget "libpq-macos" */;
@@ -567,6 +619,10 @@
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Kyle Hankinson";
 				TargetAttributes = {
+					7278872E2105FBC6000BB4CD = {
+						CreatedOnToolsVersion = 9.4.1;
+						ProvisioningStyle = Automatic;
+					};
 					7282B5A71F4DB8C4007AA006 = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
@@ -590,11 +646,19 @@
 			targets = (
 				7282B5A71F4DB8C4007AA006 /* libpq-macos */,
 				7282B5B31F4DB8D5007AA006 /* libpq-ios */,
+				7278872E2105FBC6000BB4CD /* libpqTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		7278872D2105FBC6000BB4CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7282B5A61F4DB8C4007AA006 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -612,6 +676,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7278872B2105FBC6000BB4CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				727887322105FBC6000BB4CD /* libpqTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7282B5A31F4DB8C4007AA006 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -692,7 +764,49 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		727887362105FBC6000BB4CD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7282B5A71F4DB8C4007AA006 /* libpq-macos */;
+			targetProxy = 727887352105FBC6000BB4CD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		727887372105FBC6000BB4CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = libpqTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hankinsoft.libpqTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		727887382105FBC6000BB4CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = libpqTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hankinsoft.libpqTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		7282B5AE1F4DB8C4007AA006 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -951,6 +1065,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		727887392105FBC6000BB4CD /* Build configuration list for PBXNativeTarget "libpqTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				727887372105FBC6000BB4CD /* Debug */,
+				727887382105FBC6000BB4CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		7282B5A21F4DB8C4007AA006 /* Build configuration list for PBXProject "libpq" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
