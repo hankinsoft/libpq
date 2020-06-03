@@ -5,8 +5,8 @@
 extern "C" {
 #endif
 /* OpenSSL was configured with the following options: */
-#ifndef OPENSSL_SYSNAME_MACOSX
-# define OPENSSL_SYSNAME_MACOSX
+#ifndef OPENSSL_SYSNAME_iOS
+# define OPENSSL_SYSNAME_iOS
 #endif
 #ifndef OPENSSL_DOING_MAKEDEPEND
 
@@ -58,6 +58,9 @@ extern "C" {
 
 #ifndef OPENSSL_THREADS
 # define OPENSSL_THREADS
+#endif
+#ifndef OPENSSL_NO_ASM
+# define OPENSSL_NO_ASM
 #endif
 #ifndef OPENSSL_NO_DYNAMIC_ENGINE
 # define OPENSSL_NO_DYNAMIC_ENGINE
@@ -112,8 +115,6 @@ extern "C" {
 # endif
 #endif
 
-#define OPENSSL_CPUID_OBJ
-
 /* crypto/opensslconf.h.in */
 
 /* Generate 80386 code? */
@@ -121,8 +122,8 @@ extern "C" {
 
 #if !(defined(VMS) || defined(__VMS)) /* VMS uses logical names instead */
 #if defined(HEADER_CRYPTLIB_H) && !defined(OPENSSLDIR)
-#define ENGINESDIR "/var/folders/2_/tt78sncj6p9fbmkn7808254h0000gn/T/tmp.8FhvWy5t/1.0.2u-x86_64/lib/engines"
-#define OPENSSLDIR "/var/folders/2_/tt78sncj6p9fbmkn7808254h0000gn/T/tmp.8FhvWy5t/1.0.2u-x86_64/ssl"
+#define ENGINESDIR "/var/folders/2_/tt78sncj6p9fbmkn7808254h0000gn/T/tmp.8FhvWy5t/1.0.2u-armv7s/lib/engines"
+#define OPENSSLDIR "/var/folders/2_/tt78sncj6p9fbmkn7808254h0000gn/T/tmp.8FhvWy5t/1.0.2u-armv7s/ssl"
 #endif
 #endif
 
@@ -153,7 +154,7 @@ extern "C" {
  * - Intel P6 because partial register stalls are very expensive;
  * - elder Alpha because it lacks byte load/store instructions;
  */
-#define RC4_INT unsigned int
+#define RC4_INT unsigned char
 #endif
 #if !defined(RC4_CHUNK)
 /*
@@ -168,20 +169,20 @@ extern "C" {
 /* If this is set to 'unsigned int' on a DEC Alpha, this gives about a
  * %20 speed up (longs are 8 bytes, int's are 4). */
 #ifndef DES_LONG
-#define DES_LONG unsigned int
+#define DES_LONG unsigned long
 #endif
 #endif
 
 #if defined(HEADER_BN_H) && !defined(CONFIG_HEADER_BN_H)
 #define CONFIG_HEADER_BN_H
-#undef BN_LLONG
+#define BN_LLONG
 
 /* Should we define BN_DIV2W here? */
 
 /* Only one for the following should be defined */
-#define SIXTY_FOUR_BIT_LONG
+#undef SIXTY_FOUR_BIT_LONG
 #undef SIXTY_FOUR_BIT
-#undef THIRTY_TWO_BIT
+#define THIRTY_TWO_BIT
 #endif
 
 #if defined(HEADER_RC4_LOCL_H) && !defined(CONFIG_HEADER_RC4_LOCL_H)
@@ -193,7 +194,7 @@ extern "C" {
 
 #if defined(HEADER_BF_LOCL_H) && !defined(CONFIG_HEADER_BF_LOCL_H)
 #define CONFIG_HEADER_BF_LOCL_H
-#undef BF_PTR
+#define BF_PTR
 #endif /* HEADER_BF_LOCL_H */
 
 #if defined(HEADER_DES_LOCL_H) && !defined(CONFIG_HEADER_DES_LOCL_H)
