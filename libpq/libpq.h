@@ -21,4 +21,4 @@ FOUNDATION_EXPORT const unsigned char libpqVersionString[];
 #include "pg_config_ext.h"
 
 #import "PostgresDBClient.h"
-#import "PostgresResultSet.h"
+#import "PostgresDBResultSet.h"
