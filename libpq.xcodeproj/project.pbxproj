@@ -15,6 +15,16 @@
 		727887342105FBC6000BB4CD /* libpq.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7282B5A81F4DB8C4007AA006 /* libpq.framework */; };
 		7282B5AD1F4DB8C4007AA006 /* libpq.h in Headers */ = {isa = PBXBuildFile; fileRef = 7282B5AB1F4DB8C4007AA006 /* libpq.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7282B5B71F4DB8D5007AA006 /* libpq.h in Headers */ = {isa = PBXBuildFile; fileRef = 7282B5AB1F4DB8C4007AA006 /* libpq.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		72CCC7A624EFE8A30021F6EA /* PostgresDBClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 72CCC7A424EFE8A30021F6EA /* PostgresDBClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		72CCC7A724EFE8A30021F6EA /* PostgresDBClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 72CCC7A424EFE8A30021F6EA /* PostgresDBClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		72CCC7A824EFE8A30021F6EA /* PostgresDBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 72CCC7A524EFE8A30021F6EA /* PostgresDBClient.m */; };
+		72CCC7A924EFE8A30021F6EA /* PostgresDBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 72CCC7A524EFE8A30021F6EA /* PostgresDBClient.m */; };
+		72CCC7AC24EFE8C40021F6EA /* PostgresDBResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 72CCC7AA24EFE8C40021F6EA /* PostgresDBResultSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		72CCC7AD24EFE8C40021F6EA /* PostgresDBResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 72CCC7AA24EFE8C40021F6EA /* PostgresDBResultSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		72CCC7AE24EFE8C40021F6EA /* PostgresDBResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 72CCC7AB24EFE8C40021F6EA /* PostgresDBResultSet.m */; };
+		72CCC7AF24EFE8C40021F6EA /* PostgresDBResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 72CCC7AB24EFE8C40021F6EA /* PostgresDBResultSet.m */; };
+		72CCC7B124EFE8F30021F6EA /* PostgresDBResultSetPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 72CCC7B024EFE8F30021F6EA /* PostgresDBResultSetPrivate.h */; };
+		72CCC7B224EFE8F30021F6EA /* PostgresDBResultSetPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 72CCC7B024EFE8F30021F6EA /* PostgresDBResultSetPrivate.h */; };
 		845C92682105AF9B00FD6E63 /* encnames.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C92212105AF9A00FD6E63 /* encnames.c */; };
 		845C92692105AF9B00FD6E63 /* encnames.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C92212105AF9A00FD6E63 /* encnames.c */; };
 		845C926A2105AF9B00FD6E63 /* wchar.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C92222105AF9A00FD6E63 /* wchar.c */; };
@@ -162,6 +172,11 @@
 		7282B5A81F4DB8C4007AA006 /* libpq.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libpq.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7282B5AB1F4DB8C4007AA006 /* libpq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libpq.h; sourceTree = "<group>"; };
 		7282B5BC1F4DB8D5007AA006 /* libpq.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libpq.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		72CCC7A424EFE8A30021F6EA /* PostgresDBClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresDBClient.h; sourceTree = "<group>"; };
+		72CCC7A524EFE8A30021F6EA /* PostgresDBClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostgresDBClient.m; sourceTree = "<group>"; };
+		72CCC7AA24EFE8C40021F6EA /* PostgresDBResultSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresDBResultSet.h; sourceTree = "<group>"; };
+		72CCC7AB24EFE8C40021F6EA /* PostgresDBResultSet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostgresDBResultSet.m; sourceTree = "<group>"; };
+		72CCC7B024EFE8F30021F6EA /* PostgresDBResultSetPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostgresDBResultSetPrivate.h; sourceTree = "<group>"; };
 		845C92212105AF9A00FD6E63 /* encnames.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = encnames.c; sourceTree = "<group>"; };
 		845C92222105AF9A00FD6E63 /* wchar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wchar.c; sourceTree = "<group>"; };
 		845C92242105AF9A00FD6E63 /* base64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = base64.c; sourceTree = "<group>"; };
@@ -305,6 +320,11 @@
 				7282B5AB1F4DB8C4007AA006 /* libpq.h */,
 				845C93DE2105B46200FD6E63 /* libpq-iOS-Info.plist */,
 				845C93DD2105B46200FD6E63 /* libpq-macOS-Info.plist */,
+				72CCC7A424EFE8A30021F6EA /* PostgresDBClient.h */,
+				72CCC7A524EFE8A30021F6EA /* PostgresDBClient.m */,
+				72CCC7AA24EFE8C40021F6EA /* PostgresDBResultSet.h */,
+				72CCC7AB24EFE8C40021F6EA /* PostgresDBResultSet.m */,
+				72CCC7B024EFE8F30021F6EA /* PostgresDBResultSetPrivate.h */,
 			);
 			path = libpq;
 			sourceTree = "<group>";
@@ -481,10 +501,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72CCC7A624EFE8A30021F6EA /* PostgresDBClient.h in Headers */,
+				72CCC7AC24EFE8C40021F6EA /* PostgresDBResultSet.h in Headers */,
 				845C929C2105AF9B00FD6E63 /* pg_config_ext.h in Headers */,
 				845C92A42105AF9B00FD6E63 /* postgres_ext.h in Headers */,
 				845C92C62105AF9B00FD6E63 /* libpq-fe.h in Headers */,
 				845C92962105AF9B00FD6E63 /* scram.h in Headers */,
+				72CCC7B124EFE8F30021F6EA /* PostgresDBResultSetPrivate.h in Headers */,
 				845C92C82105AF9B00FD6E63 /* libpq-int.h in Headers */,
 				845C92A22105AF9B00FD6E63 /* port.h in Headers */,
 				845C928A2105AF9B00FD6E63 /* sha2.h in Headers */,
@@ -519,10 +542,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72CCC7A724EFE8A30021F6EA /* PostgresDBClient.h in Headers */,
+				72CCC7AD24EFE8C40021F6EA /* PostgresDBResultSet.h in Headers */,
 				845C929D2105AF9B00FD6E63 /* pg_config_ext.h in Headers */,
 				845C92A52105AF9B00FD6E63 /* postgres_ext.h in Headers */,
 				845C92C72105AF9B00FD6E63 /* libpq-fe.h in Headers */,
 				845C92972105AF9B00FD6E63 /* scram.h in Headers */,
+				72CCC7B224EFE8F30021F6EA /* PostgresDBResultSetPrivate.h in Headers */,
 				845C92C92105AF9B00FD6E63 /* libpq-int.h in Headers */,
 				845C92A32105AF9B00FD6E63 /* port.h in Headers */,
 				845C928B2105AF9B00FD6E63 /* sha2.h in Headers */,
@@ -699,6 +725,7 @@
 				845C92DA2105AF9B00FD6E63 /* pg_strong_random.c in Sources */,
 				845C926E2105AF9B00FD6E63 /* fe_memutils.c in Sources */,
 				845C92682105AF9B00FD6E63 /* encnames.c in Sources */,
+				72CCC7A824EFE8A30021F6EA /* PostgresDBClient.m in Sources */,
 				845C92C22105AF9B00FD6E63 /* libpq-events.c in Sources */,
 				845C92AA2105AF9B00FD6E63 /* fe-auth-scram.c in Sources */,
 				845C92762105AF9B00FD6E63 /* scram-common.c in Sources */,
@@ -709,6 +736,7 @@
 				845C926C2105AF9B00FD6E63 /* base64.c in Sources */,
 				845C92B42105AF9B00FD6E63 /* fe-lobj.c in Sources */,
 				845C92B82105AF9B00FD6E63 /* fe-print.c in Sources */,
+				72CCC7AE24EFE8C40021F6EA /* PostgresDBResultSet.m in Sources */,
 				845C92BC2105AF9B00FD6E63 /* fe-protocol3.c in Sources */,
 				845C92D62105AF9B00FD6E63 /* noblock.c in Sources */,
 				845C92C02105AF9B00FD6E63 /* fe-secure.c in Sources */,
@@ -738,6 +766,7 @@
 				845C92DB2105AF9B00FD6E63 /* pg_strong_random.c in Sources */,
 				845C926F2105AF9B00FD6E63 /* fe_memutils.c in Sources */,
 				845C92692105AF9B00FD6E63 /* encnames.c in Sources */,
+				72CCC7A924EFE8A30021F6EA /* PostgresDBClient.m in Sources */,
 				845C92C32105AF9B00FD6E63 /* libpq-events.c in Sources */,
 				845C92AB2105AF9B00FD6E63 /* fe-auth-scram.c in Sources */,
 				845C92772105AF9B00FD6E63 /* scram-common.c in Sources */,
@@ -748,6 +777,7 @@
 				845C926D2105AF9B00FD6E63 /* base64.c in Sources */,
 				845C92B52105AF9B00FD6E63 /* fe-lobj.c in Sources */,
 				845C92B92105AF9B00FD6E63 /* fe-print.c in Sources */,
+				72CCC7AF24EFE8C40021F6EA /* PostgresDBResultSet.m in Sources */,
 				845C92BD2105AF9B00FD6E63 /* fe-protocol3.c in Sources */,
 				845C92D72105AF9B00FD6E63 /* noblock.c in Sources */,
 				845C92C12105AF9B00FD6E63 /* fe-secure.c in Sources */,
@@ -856,7 +886,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -909,7 +939,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
@@ -1023,6 +1053,7 @@
 				PRODUCT_NAME = libpq;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 			};
 			name = Debug;
 		};
@@ -1059,6 +1090,7 @@
 				PRODUCT_NAME = libpq;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 			};
 			name = Release;
 		};
