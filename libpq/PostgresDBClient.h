@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PostgresDBResultSet.h"
+#import <libpq/PostgresDBResultSet.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
