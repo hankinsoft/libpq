@@ -26,7 +26,7 @@ extern "C"
  * postgres_ext.h defines the backend's externally visible types,
  * such as Oid.
  */
-#include "postgres_ext.h"
+#include <libpq/postgres_ext.h>
 
 /*
  * Option flags for PQcopyResult
