@@ -13,7 +13,7 @@
 #ifndef SCRAM_COMMON_H
 #define SCRAM_COMMON_H
 
-#include "common/sha2.h"
+#include <common/sha2.h>
 
 /* Length of SCRAM keys (client and server) */
 #define SCRAM_KEY_LEN				PG_SHA256_DIGEST_LENGTH

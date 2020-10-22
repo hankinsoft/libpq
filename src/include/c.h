@@ -45,13 +45,13 @@
 #ifndef C_H
 #define C_H
 
-#include "postgres_ext.h"
+#include <libpq/postgres_ext.h>
 
 /* Must undef pg_config_ext.h symbols before including pg_config.h */
 #undef PG_INT64_TYPE
 
-#include "pg_config.h"
-#include "pg_config_manual.h"	/* must be after pg_config.h */
+#include <libpq/pg_config.h>
+#include <libpq/pg_config_manual.h>	/* must be after pg_config.h */
 
 /*
  * We always rely on the WIN32 macro being set by our build system,
@@ -101,7 +101,7 @@
 
 #if defined(WIN32) || defined(__CYGWIN__)
 /* We have to redefine some system functions after they are included above. */
-#include "pg_config_os.h"
+#include <libpq/pg_config_os.h>
 #endif
 
 

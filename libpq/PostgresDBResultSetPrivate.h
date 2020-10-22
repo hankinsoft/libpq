@@ -9,9 +9,9 @@
 #ifndef PostgresDBResultSetPrivate_h
 #define PostgresDBResultSetPrivate_h
 
-#import "libpq-fe.h"
-#include "postgres_ext.h"
-#include "pg_config_ext.h"
+#import <libpq/libpq-fe.h>
+#include <libpq/postgres_ext.h>
+#include <libpq/pg_config_ext.h>
 
 @interface PostgresDBResultSet(Private)
 

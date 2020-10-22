@@ -14,8 +14,8 @@
 #ifndef FE_AUTH_H
 #define FE_AUTH_H
 
-#include "libpq-fe.h"
-#include "libpq-int.h"
+#include <libpq/libpq-fe.h>
+#include <libpq/libpq-int.h>
 
 
 /* Prototypes for functions in fe-auth.c */

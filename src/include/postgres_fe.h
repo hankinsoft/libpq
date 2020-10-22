@@ -22,8 +22,8 @@
 #define FRONTEND 1
 #endif
 
-#include "c.h"
+#include <libpq/c.h>
 
-#include "common/fe_memutils.h"
+#include <common/fe_memutils.h>
 
 #endif							/* POSTGRES_FE_H */

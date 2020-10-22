@@ -14,7 +14,7 @@
 #ifndef UNICODE_NORM_H
 #define UNICODE_NORM_H
 
-#include "mb/pg_wchar.h"
+#include <mb/pg_wchar.h>
 
 extern pg_wchar *unicode_normalize_kc(const pg_wchar *input);
 
