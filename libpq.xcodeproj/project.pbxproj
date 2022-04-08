@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		723E13CA1F4DBE8700F57E13 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 723E13C81F4DBE8700F57E13 /* libcrypto.a */; };
-		723E13CB1F4DBE8700F57E13 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 723E13C91F4DBE8700F57E13 /* libssl.a */; };
 		723E13CE1F4DBE8D00F57E13 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 723E13CC1F4DBE8D00F57E13 /* libcrypto.a */; };
 		723E13CF1F4DBE8D00F57E13 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 723E13CD1F4DBE8D00F57E13 /* libssl.a */; };
 		727887322105FBC6000BB4CD /* libpqTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 727887312105FBC6000BB4CD /* libpqTests.m */; };
@@ -265,8 +263,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				723E13CA1F4DBE8700F57E13 /* libcrypto.a in Frameworks */,
-				723E13CB1F4DBE8700F57E13 /* libssl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -968,15 +964,15 @@
 					"UNSAFE_STAT_OK=1",
 				);
 				HEADER_SEARCH_PATHS = (
-					include,
-					src/include,
+					"$(PROJECT_DIR)/openssl/macOS/include",
+					"$(PROJECT_DIR)/src/include",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/libpq/libpq-macOS-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/libs/macOS",
+					"$(PROJECT_DIR)/openssl/macOS/lib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hankinsoft.sqlpro.libpq;
 				PRODUCT_NAME = libpq;
@@ -1002,15 +998,15 @@
 					"UNSAFE_STAT_OK=1",
 				);
 				HEADER_SEARCH_PATHS = (
-					include,
-					src/include,
+					"$(PROJECT_DIR)/openssl/macOS/include",
+					"$(PROJECT_DIR)/src/include",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/libpq/libpq-macOS-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/libs/macOS",
+					"$(PROJECT_DIR)/openssl/macOS/lib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hankinsoft.sqlpro.libpq;
 				PRODUCT_NAME = libpq;
@@ -1039,8 +1035,8 @@
 					"UNSAFE_STAT_OK=1",
 				);
 				HEADER_SEARCH_PATHS = (
-					include,
-					src/include,
+					"$(PROJECT_DIR)/src/include",
+					"$(PROJECT_DIR)/openssl/iOS/include",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/libpq/libpq-iOS-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1048,6 +1044,14 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs/iOS",
+				);
+				"OTHER_LDFLAGS[sdk=iphoneos*]" = (
+					"$(PROJECT_DIR)/openssl/iOS/lib/libssl.a",
+					"$(PROJECT_DIR)/openssl/iOS/lib/libcrypto.a",
+				);
+				"OTHER_LDFLAGS[sdk=iphonesimulator*]" = (
+					"$(PROJECT_DIR)/openssl/iOS-sim/lib/libssl.a",
+					"$(PROJECT_DIR)/openssl/iOS-sim/lib/libcrypto.a",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hankinsoft.sqlpro.libpq;
 				PRODUCT_NAME = libpq;
@@ -1076,8 +1080,8 @@
 					"UNSAFE_STAT_OK=1",
 				);
 				HEADER_SEARCH_PATHS = (
-					include,
-					src/include,
+					"$(PROJECT_DIR)/src/include",
+					"$(PROJECT_DIR)/openssl/iOS/include",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/libpq/libpq-iOS-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1085,6 +1089,14 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs/iOS",
+				);
+				"OTHER_LDFLAGS[sdk=iphoneos*]" = (
+					"$(PROJECT_DIR)/openssl/iOS/lib/libssl.a",
+					"$(PROJECT_DIR)/openssl/iOS/lib/libcrypto.a",
+				);
+				"OTHER_LDFLAGS[sdk=iphonesimulator*]" = (
+					"$(PROJECT_DIR)/openssl/iOS-sim/lib/libssl.a",
+					"$(PROJECT_DIR)/openssl/iOS-sim/lib/libcrypto.a",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.hankinsoft.sqlpro.libpq;
 				PRODUCT_NAME = libpq;
