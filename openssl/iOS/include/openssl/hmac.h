@@ -27,8 +27,6 @@ HMAC_CTX *HMAC_CTX_new(void);
 int HMAC_CTX_reset(HMAC_CTX *ctx);
 void HMAC_CTX_free(HMAC_CTX *ctx);
 
-DEPRECATEDIN_1_1_0(__owur int HMAC_Init(HMAC_CTX *ctx, const void *key, int len,
-                     const EVP_MD *md))
 
 /*__owur*/ int HMAC_Init_ex(HMAC_CTX *ctx, const void *key, int len,
                             const EVP_MD *md, ENGINE *impl);
