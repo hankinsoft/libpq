@@ -39,8 +39,6 @@
 		845C92752105AF9B00FD6E63 /* saslprep.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C92282105AF9A00FD6E63 /* saslprep.c */; };
 		845C92762105AF9B00FD6E63 /* scram-common.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C92292105AF9A00FD6E63 /* scram-common.c */; };
 		845C92772105AF9B00FD6E63 /* scram-common.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C92292105AF9A00FD6E63 /* scram-common.c */; };
-		845C92782105AF9B00FD6E63 /* sha2_openssl.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C922A2105AF9A00FD6E63 /* sha2_openssl.c */; };
-		845C92792105AF9B00FD6E63 /* sha2_openssl.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C922A2105AF9A00FD6E63 /* sha2_openssl.c */; };
 		845C927A2105AF9B00FD6E63 /* unicode_norm.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C922B2105AF9A00FD6E63 /* unicode_norm.c */; };
 		845C927B2105AF9B00FD6E63 /* unicode_norm.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C922B2105AF9A00FD6E63 /* unicode_norm.c */; };
 		845C927C2105AF9B00FD6E63 /* c.h in Headers */ = {isa = PBXBuildFile; fileRef = 845C922D2105AF9A00FD6E63 /* c.h */; };
@@ -105,8 +103,6 @@
 		845C92B72105AF9B00FD6E63 /* fe-misc.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C92502105AF9A00FD6E63 /* fe-misc.c */; };
 		845C92B82105AF9B00FD6E63 /* fe-print.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C92512105AF9A00FD6E63 /* fe-print.c */; };
 		845C92B92105AF9B00FD6E63 /* fe-print.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C92512105AF9A00FD6E63 /* fe-print.c */; };
-		845C92BA2105AF9B00FD6E63 /* fe-protocol2.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C92522105AF9A00FD6E63 /* fe-protocol2.c */; };
-		845C92BB2105AF9B00FD6E63 /* fe-protocol2.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C92522105AF9A00FD6E63 /* fe-protocol2.c */; };
 		845C92BC2105AF9B00FD6E63 /* fe-protocol3.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C92532105AF9A00FD6E63 /* fe-protocol3.c */; };
 		845C92BD2105AF9B00FD6E63 /* fe-protocol3.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C92532105AF9A00FD6E63 /* fe-protocol3.c */; };
 		845C92BE2105AF9B00FD6E63 /* fe-secure-openssl.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C92542105AF9A00FD6E63 /* fe-secure-openssl.c */; };
@@ -147,6 +143,32 @@
 		845C92E32105AF9B00FD6E63 /* thread.c in Sources */ = {isa = PBXBuildFile; fileRef = 845C92672105AF9A00FD6E63 /* thread.c */; };
 		845C93DB2105B37B00FD6E63 /* libpq-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 845C93DA2105B37B00FD6E63 /* libpq-Prefix.pch */; };
 		845C93DC2105B37B00FD6E63 /* libpq-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 845C93DA2105B37B00FD6E63 /* libpq-Prefix.pch */; };
+		8B29432E28C90A0F0027C8E5 /* hmac_openssl.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B29432D28C90A0F0027C8E5 /* hmac_openssl.c */; };
+		8B29432F28C90A0F0027C8E5 /* hmac_openssl.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B29432D28C90A0F0027C8E5 /* hmac_openssl.c */; };
+		8B29433128C90A660027C8E5 /* checksum_helper.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B29433028C90A660027C8E5 /* checksum_helper.h */; };
+		8B29433228C90A660027C8E5 /* checksum_helper.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B29433028C90A660027C8E5 /* checksum_helper.h */; };
+		8B29433428C90A6F0027C8E5 /* hmac.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B29433328C90A6F0027C8E5 /* hmac.h */; };
+		8B29433528C90A6F0027C8E5 /* hmac.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B29433328C90A6F0027C8E5 /* hmac.h */; };
+		8B29433728C90A7D0027C8E5 /* cryptohash.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B29433628C90A7D0027C8E5 /* cryptohash.h */; };
+		8B29433828C90A7D0027C8E5 /* cryptohash.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B29433628C90A7D0027C8E5 /* cryptohash.h */; };
+		8B29433A28C90D370027C8E5 /* cryptohash_openssl.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B29433928C90D370027C8E5 /* cryptohash_openssl.c */; };
+		8B29433B28C90D370027C8E5 /* cryptohash_openssl.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B29433928C90D370027C8E5 /* cryptohash_openssl.c */; };
+		8B29434028C910070027C8E5 /* fe-trace.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B29433F28C910070027C8E5 /* fe-trace.c */; };
+		8B29434128C910070027C8E5 /* fe-trace.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B29433F28C910070027C8E5 /* fe-trace.c */; };
+		8B29434328C9104A0027C8E5 /* link-canary.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B29434228C9104A0027C8E5 /* link-canary.c */; };
+		8B29434428C9104A0027C8E5 /* link-canary.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B29434228C9104A0027C8E5 /* link-canary.c */; };
+		8B29434628C910B00027C8E5 /* fe-secure-common.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B29434528C910AF0027C8E5 /* fe-secure-common.c */; };
+		8B29434728C910B00027C8E5 /* fe-secure-common.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B29434528C910AF0027C8E5 /* fe-secure-common.c */; };
+		8B29434928C912390027C8E5 /* explicit_bzero.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B29434828C912390027C8E5 /* explicit_bzero.c */; };
+		8B29434A28C912390027C8E5 /* explicit_bzero.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B29434828C912390027C8E5 /* explicit_bzero.c */; };
+		8B29434C28C912860027C8E5 /* md5_common.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B29434B28C912860027C8E5 /* md5_common.c */; };
+		8B29434D28C912860027C8E5 /* md5_common.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B29434B28C912860027C8E5 /* md5_common.c */; };
+		8B67DC3C28C9097800981ADF /* string.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B67DC3B28C9097800981ADF /* string.c */; };
+		8B67DC3D28C9097800981ADF /* string.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B67DC3B28C9097800981ADF /* string.c */; };
+		8B6F55BD28C907B50035E67A /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B6F55BC28C907B50035E67A /* sha2.c */; };
+		8B6F55BE28C907B50035E67A /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B6F55BC28C907B50035E67A /* sha2.c */; };
+		8BE7DB7B28C902FB00734875 /* strerror.c in Sources */ = {isa = PBXBuildFile; fileRef = 8BE7DB7A28C902FB00734875 /* strerror.c */; };
+		8BE7DB7C28C902FB00734875 /* strerror.c in Sources */ = {isa = PBXBuildFile; fileRef = 8BE7DB7A28C902FB00734875 /* strerror.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -183,7 +205,6 @@
 		845C92272105AF9A00FD6E63 /* md5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md5.c; sourceTree = "<group>"; };
 		845C92282105AF9A00FD6E63 /* saslprep.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = saslprep.c; sourceTree = "<group>"; };
 		845C92292105AF9A00FD6E63 /* scram-common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "scram-common.c"; sourceTree = "<group>"; };
-		845C922A2105AF9A00FD6E63 /* sha2_openssl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha2_openssl.c; sourceTree = "<group>"; };
 		845C922B2105AF9A00FD6E63 /* unicode_norm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unicode_norm.c; sourceTree = "<group>"; };
 		845C922D2105AF9A00FD6E63 /* c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = c.h; sourceTree = "<group>"; };
 		845C922F2105AF9A00FD6E63 /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base64.h; sourceTree = "<group>"; };
@@ -216,7 +237,6 @@
 		845C924F2105AF9A00FD6E63 /* fe-lobj.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "fe-lobj.c"; sourceTree = "<group>"; };
 		845C92502105AF9A00FD6E63 /* fe-misc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "fe-misc.c"; sourceTree = "<group>"; };
 		845C92512105AF9A00FD6E63 /* fe-print.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "fe-print.c"; sourceTree = "<group>"; };
-		845C92522105AF9A00FD6E63 /* fe-protocol2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "fe-protocol2.c"; sourceTree = "<group>"; };
 		845C92532105AF9A00FD6E63 /* fe-protocol3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "fe-protocol3.c"; sourceTree = "<group>"; };
 		845C92542105AF9A00FD6E63 /* fe-secure-openssl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "fe-secure-openssl.c"; sourceTree = "<group>"; };
 		845C92552105AF9A00FD6E63 /* fe-secure.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "fe-secure.c"; sourceTree = "<group>"; };
@@ -239,6 +259,19 @@
 		845C93DA2105B37B00FD6E63 /* libpq-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "libpq-Prefix.pch"; sourceTree = "<group>"; };
 		845C93DD2105B46200FD6E63 /* libpq-macOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "libpq-macOS-Info.plist"; sourceTree = "<group>"; };
 		845C93DE2105B46200FD6E63 /* libpq-iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "libpq-iOS-Info.plist"; sourceTree = "<group>"; };
+		8B29432D28C90A0F0027C8E5 /* hmac_openssl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hmac_openssl.c; sourceTree = "<group>"; };
+		8B29433028C90A660027C8E5 /* checksum_helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = checksum_helper.h; sourceTree = "<group>"; };
+		8B29433328C90A6F0027C8E5 /* hmac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hmac.h; sourceTree = "<group>"; };
+		8B29433628C90A7D0027C8E5 /* cryptohash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cryptohash.h; sourceTree = "<group>"; };
+		8B29433928C90D370027C8E5 /* cryptohash_openssl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cryptohash_openssl.c; sourceTree = "<group>"; };
+		8B29433F28C910070027C8E5 /* fe-trace.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "fe-trace.c"; sourceTree = "<group>"; };
+		8B29434228C9104A0027C8E5 /* link-canary.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "link-canary.c"; sourceTree = "<group>"; };
+		8B29434528C910AF0027C8E5 /* fe-secure-common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "fe-secure-common.c"; sourceTree = "<group>"; };
+		8B29434828C912390027C8E5 /* explicit_bzero.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = explicit_bzero.c; sourceTree = "<group>"; };
+		8B29434B28C912860027C8E5 /* md5_common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md5_common.c; sourceTree = "<group>"; };
+		8B67DC3B28C9097800981ADF /* string.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = string.c; sourceTree = "<group>"; };
+		8B6F55BC28C907B50035E67A /* sha2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha2.c; sourceTree = "<group>"; };
+		8BE7DB7A28C902FB00734875 /* strerror.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = strerror.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -367,12 +400,17 @@
 			isa = PBXGroup;
 			children = (
 				845C92242105AF9A00FD6E63 /* base64.c */,
+				8B29433928C90D370027C8E5 /* cryptohash_openssl.c */,
 				845C92252105AF9A00FD6E63 /* fe_memutils.c */,
+				8B29432D28C90A0F0027C8E5 /* hmac_openssl.c */,
 				845C92262105AF9A00FD6E63 /* ip.c */,
+				8B29434228C9104A0027C8E5 /* link-canary.c */,
 				845C92272105AF9A00FD6E63 /* md5.c */,
+				8B29434B28C912860027C8E5 /* md5_common.c */,
 				845C92282105AF9A00FD6E63 /* saslprep.c */,
 				845C92292105AF9A00FD6E63 /* scram-common.c */,
-				845C922A2105AF9A00FD6E63 /* sha2_openssl.c */,
+				8B6F55BC28C907B50035E67A /* sha2.c */,
+				8B67DC3B28C9097800981ADF /* string.c */,
 				845C922B2105AF9A00FD6E63 /* unicode_norm.c */,
 			);
 			path = common;
@@ -402,7 +440,10 @@
 			isa = PBXGroup;
 			children = (
 				845C922F2105AF9A00FD6E63 /* base64.h */,
+				8B29433028C90A660027C8E5 /* checksum_helper.h */,
+				8B29433628C90A7D0027C8E5 /* cryptohash.h */,
 				845C92302105AF9A00FD6E63 /* fe_memutils.h */,
+				8B29433328C90A6F0027C8E5 /* hmac.h */,
 				845C92312105AF9A00FD6E63 /* ip.h */,
 				845C92322105AF9A00FD6E63 /* md5.h */,
 				845C92332105AF9A00FD6E63 /* saslprep.h */,
@@ -459,10 +500,11 @@
 				845C924F2105AF9A00FD6E63 /* fe-lobj.c */,
 				845C92502105AF9A00FD6E63 /* fe-misc.c */,
 				845C92512105AF9A00FD6E63 /* fe-print.c */,
-				845C92522105AF9A00FD6E63 /* fe-protocol2.c */,
 				845C92532105AF9A00FD6E63 /* fe-protocol3.c */,
-				845C92542105AF9A00FD6E63 /* fe-secure-openssl.c */,
 				845C92552105AF9A00FD6E63 /* fe-secure.c */,
+				8B29434528C910AF0027C8E5 /* fe-secure-common.c */,
+				845C92542105AF9A00FD6E63 /* fe-secure-openssl.c */,
+				8B29433F28C910070027C8E5 /* fe-trace.c */,
 				845C92562105AF9A00FD6E63 /* libpq-events.c */,
 				845C92572105AF9A00FD6E63 /* libpq-events.h */,
 				845C92582105AF9A00FD6E63 /* libpq-fe.h */,
@@ -478,6 +520,7 @@
 			children = (
 				845C925E2105AF9A00FD6E63 /* chklocale.c */,
 				845C925F2105AF9A00FD6E63 /* erand48.c */,
+				8B29434828C912390027C8E5 /* explicit_bzero.c */,
 				845C92602105AF9A00FD6E63 /* inet_net_ntop.c */,
 				845C92612105AF9A00FD6E63 /* noblock.c */,
 				845C92622105AF9A00FD6E63 /* pg_config_paths.h */,
@@ -486,6 +529,7 @@
 				845C92652105AF9A00FD6E63 /* pqsignal.c */,
 				845C92662105AF9A00FD6E63 /* snprintf.c */,
 				845C92672105AF9A00FD6E63 /* thread.c */,
+				8BE7DB7A28C902FB00734875 /* strerror.c */,
 			);
 			path = port;
 			sourceTree = "<group>";
@@ -498,6 +542,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				72CCC7A624EFE8A30021F6EA /* PostgresDBClient.h in Headers */,
+				8B29433728C90A7D0027C8E5 /* cryptohash.h in Headers */,
 				72CCC7AC24EFE8C40021F6EA /* PostgresDBResultSet.h in Headers */,
 				845C929C2105AF9B00FD6E63 /* pg_config_ext.h in Headers */,
 				845C92A42105AF9B00FD6E63 /* postgres_ext.h in Headers */,
@@ -508,6 +553,7 @@
 				845C92A22105AF9B00FD6E63 /* port.h in Headers */,
 				845C928A2105AF9B00FD6E63 /* sha2.h in Headers */,
 				845C92882105AF9B00FD6E63 /* scram-common.h in Headers */,
+				8B29433128C90A660027C8E5 /* checksum_helper.h in Headers */,
 				845C927C2105AF9B00FD6E63 /* c.h in Headers */,
 				845C929A2105AF9B00FD6E63 /* pg_config.h in Headers */,
 				845C92802105AF9B00FD6E63 /* fe_memutils.h in Headers */,
@@ -521,6 +567,7 @@
 				845C92942105AF9B00FD6E63 /* pqcomm.h in Headers */,
 				845C92AE2105AF9B00FD6E63 /* fe-auth.h in Headers */,
 				845C928C2105AF9B00FD6E63 /* unicode_norm.h in Headers */,
+				8B29433428C90A6F0027C8E5 /* hmac.h in Headers */,
 				845C92A62105AF9B00FD6E63 /* postgres_fe.h in Headers */,
 				845C92A02105AF9B00FD6E63 /* pg_config_os.h in Headers */,
 				845C92922105AF9B00FD6E63 /* libpq-fs.h in Headers */,
@@ -539,6 +586,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				72CCC7A724EFE8A30021F6EA /* PostgresDBClient.h in Headers */,
+				8B29433828C90A7D0027C8E5 /* cryptohash.h in Headers */,
 				72CCC7AD24EFE8C40021F6EA /* PostgresDBResultSet.h in Headers */,
 				845C929D2105AF9B00FD6E63 /* pg_config_ext.h in Headers */,
 				845C92A52105AF9B00FD6E63 /* postgres_ext.h in Headers */,
@@ -549,6 +597,7 @@
 				845C92A32105AF9B00FD6E63 /* port.h in Headers */,
 				845C928B2105AF9B00FD6E63 /* sha2.h in Headers */,
 				845C92892105AF9B00FD6E63 /* scram-common.h in Headers */,
+				8B29433228C90A660027C8E5 /* checksum_helper.h in Headers */,
 				845C927D2105AF9B00FD6E63 /* c.h in Headers */,
 				845C929B2105AF9B00FD6E63 /* pg_config.h in Headers */,
 				845C92812105AF9B00FD6E63 /* fe_memutils.h in Headers */,
@@ -562,6 +611,7 @@
 				845C92952105AF9B00FD6E63 /* pqcomm.h in Headers */,
 				845C92AF2105AF9B00FD6E63 /* fe-auth.h in Headers */,
 				845C928D2105AF9B00FD6E63 /* unicode_norm.h in Headers */,
+				8B29433528C90A6F0027C8E5 /* hmac.h in Headers */,
 				845C92A72105AF9B00FD6E63 /* postgres_fe.h in Headers */,
 				845C92A12105AF9B00FD6E63 /* pg_config_os.h in Headers */,
 				845C92932105AF9B00FD6E63 /* libpq-fs.h in Headers */,
@@ -715,31 +765,39 @@
 				845C92D42105AF9B00FD6E63 /* inet_net_ntop.c in Sources */,
 				845C92E02105AF9B00FD6E63 /* snprintf.c in Sources */,
 				845C927A2105AF9B00FD6E63 /* unicode_norm.c in Sources */,
-				845C92BA2105AF9B00FD6E63 /* fe-protocol2.c in Sources */,
 				845C92BE2105AF9B00FD6E63 /* fe-secure-openssl.c in Sources */,
 				845C92DC2105AF9B00FD6E63 /* pgstrcasecmp.c in Sources */,
 				845C92DA2105AF9B00FD6E63 /* pg_strong_random.c in Sources */,
 				845C926E2105AF9B00FD6E63 /* fe_memutils.c in Sources */,
 				845C92682105AF9B00FD6E63 /* encnames.c in Sources */,
 				72CCC7A824EFE8A30021F6EA /* PostgresDBClient.m in Sources */,
+				8B29434328C9104A0027C8E5 /* link-canary.c in Sources */,
 				845C92C22105AF9B00FD6E63 /* libpq-events.c in Sources */,
+				8BE7DB7B28C902FB00734875 /* strerror.c in Sources */,
+				8B29433A28C90D370027C8E5 /* cryptohash_openssl.c in Sources */,
 				845C92AA2105AF9B00FD6E63 /* fe-auth-scram.c in Sources */,
 				845C92762105AF9B00FD6E63 /* scram-common.c in Sources */,
 				845C92D22105AF9B00FD6E63 /* erand48.c in Sources */,
+				8B6F55BD28C907B50035E67A /* sha2.c in Sources */,
 				845C92742105AF9B00FD6E63 /* saslprep.c in Sources */,
 				845C92CA2105AF9B00FD6E63 /* pqexpbuffer.c in Sources */,
+				8B29434C28C912860027C8E5 /* md5_common.c in Sources */,
 				845C92E22105AF9B00FD6E63 /* thread.c in Sources */,
 				845C926C2105AF9B00FD6E63 /* base64.c in Sources */,
 				845C92B42105AF9B00FD6E63 /* fe-lobj.c in Sources */,
 				845C92B82105AF9B00FD6E63 /* fe-print.c in Sources */,
+				8B29434928C912390027C8E5 /* explicit_bzero.c in Sources */,
 				72CCC7AE24EFE8C40021F6EA /* PostgresDBResultSet.m in Sources */,
 				845C92BC2105AF9B00FD6E63 /* fe-protocol3.c in Sources */,
 				845C92D62105AF9B00FD6E63 /* noblock.c in Sources */,
 				845C92C02105AF9B00FD6E63 /* fe-secure.c in Sources */,
+				8B29432E28C90A0F0027C8E5 /* hmac_openssl.c in Sources */,
 				845C92B02105AF9B00FD6E63 /* fe-connect.c in Sources */,
 				845C92D02105AF9B00FD6E63 /* chklocale.c in Sources */,
+				8B29434628C910B00027C8E5 /* fe-secure-common.c in Sources */,
+				8B67DC3C28C9097800981ADF /* string.c in Sources */,
+				8B29434028C910070027C8E5 /* fe-trace.c in Sources */,
 				845C92702105AF9B00FD6E63 /* ip.c in Sources */,
-				845C92782105AF9B00FD6E63 /* sha2_openssl.c in Sources */,
 				845C926A2105AF9B00FD6E63 /* wchar.c in Sources */,
 				845C92B62105AF9B00FD6E63 /* fe-misc.c in Sources */,
 				845C92DE2105AF9B00FD6E63 /* pqsignal.c in Sources */,
@@ -756,31 +814,39 @@
 				845C92D52105AF9B00FD6E63 /* inet_net_ntop.c in Sources */,
 				845C92E12105AF9B00FD6E63 /* snprintf.c in Sources */,
 				845C927B2105AF9B00FD6E63 /* unicode_norm.c in Sources */,
-				845C92BB2105AF9B00FD6E63 /* fe-protocol2.c in Sources */,
 				845C92BF2105AF9B00FD6E63 /* fe-secure-openssl.c in Sources */,
 				845C92DD2105AF9B00FD6E63 /* pgstrcasecmp.c in Sources */,
 				845C92DB2105AF9B00FD6E63 /* pg_strong_random.c in Sources */,
 				845C926F2105AF9B00FD6E63 /* fe_memutils.c in Sources */,
 				845C92692105AF9B00FD6E63 /* encnames.c in Sources */,
 				72CCC7A924EFE8A30021F6EA /* PostgresDBClient.m in Sources */,
+				8B29434428C9104A0027C8E5 /* link-canary.c in Sources */,
 				845C92C32105AF9B00FD6E63 /* libpq-events.c in Sources */,
+				8BE7DB7C28C902FB00734875 /* strerror.c in Sources */,
+				8B29433B28C90D370027C8E5 /* cryptohash_openssl.c in Sources */,
 				845C92AB2105AF9B00FD6E63 /* fe-auth-scram.c in Sources */,
 				845C92772105AF9B00FD6E63 /* scram-common.c in Sources */,
 				845C92D32105AF9B00FD6E63 /* erand48.c in Sources */,
+				8B6F55BE28C907B50035E67A /* sha2.c in Sources */,
 				845C92752105AF9B00FD6E63 /* saslprep.c in Sources */,
 				845C92CB2105AF9B00FD6E63 /* pqexpbuffer.c in Sources */,
+				8B29434D28C912860027C8E5 /* md5_common.c in Sources */,
 				845C92E32105AF9B00FD6E63 /* thread.c in Sources */,
 				845C926D2105AF9B00FD6E63 /* base64.c in Sources */,
 				845C92B52105AF9B00FD6E63 /* fe-lobj.c in Sources */,
 				845C92B92105AF9B00FD6E63 /* fe-print.c in Sources */,
+				8B29434A28C912390027C8E5 /* explicit_bzero.c in Sources */,
 				72CCC7AF24EFE8C40021F6EA /* PostgresDBResultSet.m in Sources */,
 				845C92BD2105AF9B00FD6E63 /* fe-protocol3.c in Sources */,
 				845C92D72105AF9B00FD6E63 /* noblock.c in Sources */,
 				845C92C12105AF9B00FD6E63 /* fe-secure.c in Sources */,
+				8B29432F28C90A0F0027C8E5 /* hmac_openssl.c in Sources */,
 				845C92B12105AF9B00FD6E63 /* fe-connect.c in Sources */,
 				845C92D12105AF9B00FD6E63 /* chklocale.c in Sources */,
+				8B29434728C910B00027C8E5 /* fe-secure-common.c in Sources */,
+				8B67DC3D28C9097800981ADF /* string.c in Sources */,
+				8B29434128C910070027C8E5 /* fe-trace.c in Sources */,
 				845C92712105AF9B00FD6E63 /* ip.c in Sources */,
-				845C92792105AF9B00FD6E63 /* sha2_openssl.c in Sources */,
 				845C926B2105AF9B00FD6E63 /* wchar.c in Sources */,
 				845C92B72105AF9B00FD6E63 /* fe-misc.c in Sources */,
 				845C92DF2105AF9B00FD6E63 /* pqsignal.c in Sources */,

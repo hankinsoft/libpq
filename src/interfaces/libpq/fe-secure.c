@@ -6,18 +6,12 @@
  *	  message integrity and endpoint authentication.
  *
  *
- * Portions Copyright (c) 1996-2017, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2021, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
  *
  * IDENTIFICATION
  *	  src/interfaces/libpq/fe-secure.c
- *
- * NOTES
- *
- *	  We don't provide informational callbacks here (like
- *	  info_cb() in be-secure.c), since there's no good mechanism to
- *	  display such information to the user.
  *
  *-------------------------------------------------------------------------
  */
@@ -27,10 +21,6 @@
 #include <signal.h>
 #include <fcntl.h>
 #include <ctype.h>
-
-#include "libpq-fe.h"
-#include "fe-auth.h"
-#include "libpq-int.h"
 
 #ifdef WIN32
 #include "win32.h"
@@ -54,6 +44,10 @@
 #include <pthread.h>
 #endif
 #endif
+
+#include "fe-auth.h"
+#include "libpq-fe.h"
+#include "libpq-int.h"
 
 /*
  * Macros to handle disabling and then restoring the state of SIGPIPE handling.
@@ -129,6 +123,14 @@ struct sigpipe_info
 /* ------------------------------------------------------------ */
 
 
+int
+PQsslInUse(PGconn *conn)
+{
+	if (!conn)
+		return 0;
+	return conn->ssl_in_use;
+}
+
 /*
  *	Exported function to allow application to tell us it's already
  *	initialized OpenSSL.
@@ -157,12 +159,12 @@ PQinitOpenSSL(int do_ssl, int do_crypto)
  *	Initialize global SSL context
  */
 int
-pqsecure_initialize(PGconn *conn)
+pqsecure_initialize(PGconn *conn, bool do_ssl, bool do_crypto)
 {
 	int			r = 0;
 
 #ifdef USE_SSL
-	r = pgtls_init(conn);
+	r = pgtls_init(conn, do_ssl, do_crypto);
 #endif
 
 	return r;
@@ -189,16 +191,15 @@ void
 pqsecure_close(PGconn *conn)
 {
 #ifdef USE_SSL
-	if (conn->ssl_in_use)
-		pgtls_close(conn);
+	pgtls_close(conn);
 #endif
 }
 
 /*
  *	Read data from a secure connection.
  *
- * On failure, this function is responsible for putting a suitable message
- * into conn->errorMessage.  The caller must still inspect errno, but only
+ * On failure, this function is responsible for appending a suitable message
+ * to conn->errorMessage.  The caller must still inspect errno, but only
  * to determine whether to continue/retry after error.
  */
 ssize_t
@@ -210,6 +211,13 @@ pqsecure_read(PGconn *conn, void *ptr, size_t len)
 	if (conn->ssl_in_use)
 	{
 		n = pgtls_read(conn, ptr, len);
+	}
+	else
+#endif
+#ifdef ENABLE_GSS
+	if (conn->gssenc)
+	{
+		n = pg_GSS_read(conn, ptr, len);
 	}
 	else
 #endif
@@ -225,7 +233,7 @@ pqsecure_raw_read(PGconn *conn, void *ptr, size_t len)
 {
 	ssize_t		n;
 	int			result_errno = 0;
-	char		sebuf[256];
+	char		sebuf[PG_STRERROR_R_BUFLEN];
 
 	n = recv(conn->sock, ptr, len, 0);
 
@@ -246,18 +254,16 @@ pqsecure_raw_read(PGconn *conn, void *ptr, size_t len)
 				/* no error message, caller is expected to retry */
 				break;
 
-#ifdef ECONNRESET
+			case EPIPE:
 			case ECONNRESET:
-				printfPQExpBuffer(&conn->errorMessage,
-								  libpq_gettext(
-												"server closed the connection unexpectedly\n"
-												"\tThis probably means the server terminated abnormally\n"
-												"\tbefore or while processing the request.\n"));
+				appendPQExpBufferStr(&conn->errorMessage,
+									 libpq_gettext("server closed the connection unexpectedly\n"
+												   "\tThis probably means the server terminated abnormally\n"
+												   "\tbefore or while processing the request.\n"));
 				break;
-#endif
 
 			default:
-				printfPQExpBuffer(&conn->errorMessage,
+				appendPQExpBuffer(&conn->errorMessage,
 								  libpq_gettext("could not receive data from server: %s\n"),
 								  SOCK_STRERROR(result_errno,
 												sebuf, sizeof(sebuf)));
@@ -274,8 +280,8 @@ pqsecure_raw_read(PGconn *conn, void *ptr, size_t len)
 /*
  *	Write data to a secure connection.
  *
- * On failure, this function is responsible for putting a suitable message
- * into conn->errorMessage.  The caller must still inspect errno, but only
+ * On failure, this function is responsible for appending a suitable message
+ * to conn->errorMessage.  The caller must still inspect errno, but only
  * to determine whether to continue/retry after error.
  */
 ssize_t
@@ -287,6 +293,13 @@ pqsecure_write(PGconn *conn, const void *ptr, size_t len)
 	if (conn->ssl_in_use)
 	{
 		n = pgtls_write(conn, ptr, len);
+	}
+	else
+#endif
+#ifdef ENABLE_GSS
+	if (conn->gssenc)
+	{
+		n = pg_GSS_write(conn, ptr, len);
 	}
 	else
 #endif
@@ -303,7 +316,7 @@ pqsecure_raw_write(PGconn *conn, const void *ptr, size_t len)
 	ssize_t		n;
 	int			flags = 0;
 	int			result_errno = 0;
-	char		sebuf[256];
+	char		sebuf[PG_STRERROR_R_BUFLEN];
 
 	DECLARE_SIGPIPE_INFO(spinfo);
 
@@ -352,20 +365,18 @@ retry_masked:
 			case EPIPE:
 				/* Set flag for EPIPE */
 				REMEMBER_EPIPE(spinfo, true);
+
 				/* FALL THRU */
 
-#ifdef ECONNRESET
 			case ECONNRESET:
-#endif
-				printfPQExpBuffer(&conn->errorMessage,
-								  libpq_gettext(
-												"server closed the connection unexpectedly\n"
-												"\tThis probably means the server terminated abnormally\n"
-												"\tbefore or while processing the request.\n"));
+				appendPQExpBufferStr(&conn->errorMessage,
+									 libpq_gettext("server closed the connection unexpectedly\n"
+												   "\tThis probably means the server terminated abnormally\n"
+												   "\tbefore or while processing the request.\n"));
 				break;
 
 			default:
-				printfPQExpBuffer(&conn->errorMessage,
+				appendPQExpBuffer(&conn->errorMessage,
 								  libpq_gettext("could not send data to server: %s\n"),
 								  SOCK_STRERROR(result_errno,
 												sebuf, sizeof(sebuf)));
@@ -383,12 +394,6 @@ retry_masked:
 
 /* Dummy versions of SSL info functions, when built without SSL support */
 #ifndef USE_SSL
-
-int
-PQsslInUse(PGconn *conn)
-{
-	return 0;
-}
 
 void *
 PQgetssl(PGconn *conn)
@@ -416,6 +421,48 @@ PQsslAttributeNames(PGconn *conn)
 	return result;
 }
 #endif							/* USE_SSL */
+
+/*
+ * Dummy versions of OpenSSL key password hook functions, when built without
+ * OpenSSL.
+ */
+#ifndef USE_OPENSSL
+
+PQsslKeyPassHook_OpenSSL_type
+PQgetSSLKeyPassHook_OpenSSL(void)
+{
+	return NULL;
+}
+
+void
+PQsetSSLKeyPassHook_OpenSSL(PQsslKeyPassHook_OpenSSL_type hook)
+{
+	return;
+}
+
+int
+PQdefaultSSLKeyPassHook_OpenSSL(char *buf, int size, PGconn *conn)
+{
+	return 0;
+}
+#endif							/* USE_OPENSSL */
+
+/* Dummy version of GSSAPI information functions, when built without GSS support */
+#ifndef ENABLE_GSS
+
+void *
+PQgetgssctx(PGconn *conn)
+{
+	return NULL;
+}
+
+int
+PQgssEncInUse(PGconn *conn)
+{
+	return 0;
+}
+
+#endif							/* ENABLE_GSS */
 
 
 #if defined(ENABLE_THREAD_SAFETY) && !defined(WIN32)
@@ -465,10 +512,10 @@ pq_block_sigpipe(sigset_t *osigset, bool *sigpipe_pending)
  * As long as it doesn't queue multiple events, we're OK because the caller
  * can't tell the difference.
  *
- * The caller should say got_epipe = FALSE if it is certain that it
+ * The caller should say got_epipe = false if it is certain that it
  * didn't get an EPIPE error; in that case we'll skip the clear operation
  * and things are definitely OK, queuing or no.  If it got one or might have
- * gotten one, pass got_epipe = TRUE.
+ * gotten one, pass got_epipe = true.
  *
  * We do not want this to change errno, since if it did that could lose
  * the error code from a preceding send().  We essentially assume that if
