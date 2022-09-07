@@ -1104,6 +1104,14 @@
 					"$(PROJECT_DIR)/src/include",
 					"$(PROJECT_DIR)/openssl/iOS/include",
 				);
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					"$(PROJECT_DIR)/src/include",
+					"$(PROJECT_DIR)/openssl/iOS/include",
+				);
+				"HEADER_SEARCH_PATHS[sdk=iphonesimulator*]" = (
+					"$(PROJECT_DIR)/src/include",
+					"$(PROJECT_DIR)/openssl/iOS-sim/include",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/libpq/libpq-iOS-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
@@ -1148,6 +1156,14 @@
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/src/include",
 					"$(PROJECT_DIR)/openssl/iOS/include",
+				);
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					"$(PROJECT_DIR)/src/include",
+					"$(PROJECT_DIR)/openssl/iOS/include",
+				);
+				"HEADER_SEARCH_PATHS[sdk=iphonesimulator*]" = (
+					"$(PROJECT_DIR)/src/include",
+					"$(PROJECT_DIR)/openssl/iOS-sim/include",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/libpq/libpq-iOS-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
