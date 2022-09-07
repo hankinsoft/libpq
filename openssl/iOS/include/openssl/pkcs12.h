@@ -72,6 +72,8 @@ typedef struct pkcs12_bag_st PKCS12_BAGS;
 
 #endif
 
+DEPRECATEDIN_1_1_0(ASN1_TYPE *PKCS12_get_attr(const PKCS12_SAFEBAG *bag, int attr_nid))
+
 ASN1_TYPE *PKCS8_get_attr(PKCS8_PRIV_KEY_INFO *p8, int attr_nid);
 int PKCS12_mac_present(const PKCS12 *p12);
 void PKCS12_get0_mac(const ASN1_OCTET_STRING **pmac,

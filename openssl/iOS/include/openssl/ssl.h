@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2020 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright (c) 2002, Oracle and/or its affiliates. All rights reserved
  * Copyright 2005 Nokia. All rights reserved.
  *
@@ -967,6 +967,7 @@ DEFINE_STACK_OF(SSL_COMP)
 # define SSL_CTX_get_app_data(ctx)       (SSL_CTX_get_ex_data(ctx,0))
 # define SSL_CTX_set_app_data(ctx,arg)   (SSL_CTX_set_ex_data(ctx,0, \
                                                               (char *)(arg)))
+DEPRECATEDIN_1_1_0(void SSL_set_debug(SSL *s, int debug))
 
 /* TLSv1.3 KeyUpdate message types */
 /* -1 used so that this is an invalid value for the on-the-wire protocol */
@@ -1304,6 +1305,8 @@ DECLARE_PEM_rw(SSL_SESSION, SSL_SESSION)
 # define SSL_CTRL_GET_MAX_PROTO_VERSION          131
 # define SSL_CTRL_GET_SIGNATURE_NID              132
 # define SSL_CTRL_GET_TMP_KEY                    133
+# define SSL_CTRL_GET_VERIFY_CERT_STORE          137
+# define SSL_CTRL_GET_CHAIN_CERT_STORE           138
 # define SSL_CERT_SET_FIRST                      1
 # define SSL_CERT_SET_NEXT                       2
 # define SSL_CERT_SET_SERVER                     3
@@ -1359,10 +1362,14 @@ DECLARE_PEM_rw(SSL_SESSION, SSL_SESSION)
         SSL_CTX_ctrl(ctx,SSL_CTRL_SET_VERIFY_CERT_STORE,0,(char *)(st))
 # define SSL_CTX_set1_verify_cert_store(ctx,st) \
         SSL_CTX_ctrl(ctx,SSL_CTRL_SET_VERIFY_CERT_STORE,1,(char *)(st))
+# define SSL_CTX_get0_verify_cert_store(ctx,st) \
+        SSL_CTX_ctrl(ctx,SSL_CTRL_GET_VERIFY_CERT_STORE,0,(char *)(st))
 # define SSL_CTX_set0_chain_cert_store(ctx,st) \
         SSL_CTX_ctrl(ctx,SSL_CTRL_SET_CHAIN_CERT_STORE,0,(char *)(st))
 # define SSL_CTX_set1_chain_cert_store(ctx,st) \
         SSL_CTX_ctrl(ctx,SSL_CTRL_SET_CHAIN_CERT_STORE,1,(char *)(st))
+# define SSL_CTX_get0_chain_cert_store(ctx,st) \
+        SSL_CTX_ctrl(ctx,SSL_CTRL_GET_CHAIN_CERT_STORE,0,(char *)(st))
 # define SSL_set0_chain(s,sk) \
         SSL_ctrl(s,SSL_CTRL_CHAIN,0,(char *)(sk))
 # define SSL_set1_chain(s,sk) \
@@ -1385,10 +1392,14 @@ DECLARE_PEM_rw(SSL_SESSION, SSL_SESSION)
         SSL_ctrl(s,SSL_CTRL_SET_VERIFY_CERT_STORE,0,(char *)(st))
 # define SSL_set1_verify_cert_store(s,st) \
         SSL_ctrl(s,SSL_CTRL_SET_VERIFY_CERT_STORE,1,(char *)(st))
+#define SSL_get0_verify_cert_store(s,st) \
+        SSL_ctrl(s,SSL_CTRL_GET_VERIFY_CERT_STORE,0,(char *)(st))
 # define SSL_set0_chain_cert_store(s,st) \
         SSL_ctrl(s,SSL_CTRL_SET_CHAIN_CERT_STORE,0,(char *)(st))
 # define SSL_set1_chain_cert_store(s,st) \
         SSL_ctrl(s,SSL_CTRL_SET_CHAIN_CERT_STORE,1,(char *)(st))
+#define SSL_get0_chain_cert_store(s,st) \
+        SSL_ctrl(s,SSL_CTRL_GET_CHAIN_CERT_STORE,0,(char *)(st))
 # define SSL_get1_groups(s, glist) \
         SSL_ctrl(s,SSL_CTRL_GET_GROUPS,0,(int*)(glist))
 # define SSL_CTX_set1_groups(ctx, glist, glistlen) \
@@ -1858,6 +1869,9 @@ __owur const char *SSL_get_version(const SSL *s);
 __owur int SSL_CTX_set_ssl_version(SSL_CTX *ctx, const SSL_METHOD *meth);
 
 # ifndef OPENSSL_NO_SSL3_METHOD
+DEPRECATEDIN_1_1_0(__owur const SSL_METHOD *SSLv3_method(void)) /* SSLv3 */
+DEPRECATEDIN_1_1_0(__owur const SSL_METHOD *SSLv3_server_method(void))
+DEPRECATEDIN_1_1_0(__owur const SSL_METHOD *SSLv3_client_method(void))
 # endif
 
 #define SSLv23_method           TLS_method
@@ -1870,19 +1884,34 @@ __owur const SSL_METHOD *TLS_server_method(void);
 __owur const SSL_METHOD *TLS_client_method(void);
 
 # ifndef OPENSSL_NO_TLS1_METHOD
+DEPRECATEDIN_1_1_0(__owur const SSL_METHOD *TLSv1_method(void)) /* TLSv1.0 */
+DEPRECATEDIN_1_1_0(__owur const SSL_METHOD *TLSv1_server_method(void))
+DEPRECATEDIN_1_1_0(__owur const SSL_METHOD *TLSv1_client_method(void))
 # endif
 
 # ifndef OPENSSL_NO_TLS1_1_METHOD
+DEPRECATEDIN_1_1_0(__owur const SSL_METHOD *TLSv1_1_method(void)) /* TLSv1.1 */
+DEPRECATEDIN_1_1_0(__owur const SSL_METHOD *TLSv1_1_server_method(void))
+DEPRECATEDIN_1_1_0(__owur const SSL_METHOD *TLSv1_1_client_method(void))
 # endif
 
 # ifndef OPENSSL_NO_TLS1_2_METHOD
+DEPRECATEDIN_1_1_0(__owur const SSL_METHOD *TLSv1_2_method(void)) /* TLSv1.2 */
+DEPRECATEDIN_1_1_0(__owur const SSL_METHOD *TLSv1_2_server_method(void))
+DEPRECATEDIN_1_1_0(__owur const SSL_METHOD *TLSv1_2_client_method(void))
 # endif
 
 # ifndef OPENSSL_NO_DTLS1_METHOD
+DEPRECATEDIN_1_1_0(__owur const SSL_METHOD *DTLSv1_method(void)) /* DTLSv1.0 */
+DEPRECATEDIN_1_1_0(__owur const SSL_METHOD *DTLSv1_server_method(void))
+DEPRECATEDIN_1_1_0(__owur const SSL_METHOD *DTLSv1_client_method(void))
 # endif
 
 # ifndef OPENSSL_NO_DTLS1_2_METHOD
 /* DTLSv1.2 */
+DEPRECATEDIN_1_1_0(__owur const SSL_METHOD *DTLSv1_2_method(void))
+DEPRECATEDIN_1_1_0(__owur const SSL_METHOD *DTLSv1_2_server_method(void))
+DEPRECATEDIN_1_1_0(__owur const SSL_METHOD *DTLSv1_2_client_method(void))
 # endif
 
 __owur const SSL_METHOD *DTLS_method(void); /* DTLS 1.0 and 1.2 */

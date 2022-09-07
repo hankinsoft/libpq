@@ -41,6 +41,7 @@ RAND_METHOD *RAND_OpenSSL(void);
 # endif
 int RAND_bytes(unsigned char *buf, int num);
 int RAND_priv_bytes(unsigned char *buf, int num);
+DEPRECATEDIN_1_1_0(int RAND_pseudo_bytes(unsigned char *buf, int num))
 
 void RAND_seed(const void *buf, int num);
 void RAND_keep_random_devices_open(int keep);
@@ -64,6 +65,8 @@ int RAND_poll(void);
 
 # if defined(_WIN32) && (defined(BASETYPES) || defined(_WINDEF_H))
 /* application has to include <windows.h> in order to use these */
+DEPRECATEDIN_1_1_0(void RAND_screen(void))
+DEPRECATEDIN_1_1_0(int RAND_event(UINT, WPARAM, LPARAM))
 # endif
 
 
