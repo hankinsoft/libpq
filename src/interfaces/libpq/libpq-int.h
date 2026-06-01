@@ -578,9 +578,6 @@ struct pg_conn
 	bool		ssl_cert_requested; /* Did the server ask us for a cert? */
 	bool		ssl_cert_sent;	/* Did we send one in reply? */
 
-	/* SSL structures */
-	bool		ssl_in_use;
-
 #ifdef USE_SSL
 #ifdef USE_OPENSSL
 	SSL		   *ssl;			/* SSL status, if have SSL connection */

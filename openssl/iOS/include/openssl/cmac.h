@@ -18,8 +18,6 @@
 
 #ifndef OPENSSL_NO_CMAC
 
-# ifndef OPENSSL_NO_CMAC
-
 #ifdef __cplusplus
 extern "C" {
 #endif

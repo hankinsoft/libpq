@@ -97,6 +97,5 @@ SKM_DEFINE_STACK_OF_INTERNAL(SSL_COMP, SSL_COMP, SSL_COMP)
 
 #ifdef __cplusplus
 }
-#  endif
-# endif
+#endif
 #endif

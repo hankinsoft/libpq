@@ -72,11 +72,6 @@ extern "C" {
 
 /* text strings for the ciphers */
 
-/* The maximum number of encrypt/decrypt pipelines we can support */
-# define SSL_MAX_PIPELINES  32
-
-/* text strings for the ciphers */
-
 /* These are used to specify which ciphers to use and not to use */
 
 #define SSL_TXT_LOW "LOW"
@@ -242,7 +237,6 @@ typedef struct ssl_cipher_st SSL_CIPHER;
 typedef struct ssl_session_st SSL_SESSION;
 typedef struct tls_sigalgs_st TLS_SIGALGS;
 typedef struct ssl_conf_ctx_st SSL_CONF_CTX;
-typedef struct ssl_comp_st SSL_COMP;
 
 STACK_OF(SSL_CIPHER);
 
@@ -1984,28 +1978,6 @@ int SSL_client_hello_get_extension_order(SSL *s, uint16_t *exts,
 int SSL_client_hello_get0_ext(SSL *s, unsigned int type,
     const unsigned char **out, size_t *outlen);
 
-/*
- * ClientHello callback and helpers.
- */
-
-# define SSL_CLIENT_HELLO_SUCCESS 1
-# define SSL_CLIENT_HELLO_ERROR   0
-# define SSL_CLIENT_HELLO_RETRY   (-1)
-
-typedef int (*SSL_client_hello_cb_fn) (SSL *s, int *al, void *arg);
-void SSL_CTX_set_client_hello_cb(SSL_CTX *c, SSL_client_hello_cb_fn cb,
-                                 void *arg);
-int SSL_client_hello_isv2(SSL *s);
-unsigned int SSL_client_hello_get0_legacy_version(SSL *s);
-size_t SSL_client_hello_get0_random(SSL *s, const unsigned char **out);
-size_t SSL_client_hello_get0_session_id(SSL *s, const unsigned char **out);
-size_t SSL_client_hello_get0_ciphers(SSL *s, const unsigned char **out);
-size_t SSL_client_hello_get0_compression_methods(SSL *s,
-                                                 const unsigned char **out);
-int SSL_client_hello_get1_extensions_present(SSL *s, int **out, size_t *outlen);
-int SSL_client_hello_get0_ext(SSL *s, unsigned int type,
-                              const unsigned char **out, size_t *outlen);
-
 void SSL_certs_clear(SSL *s);
 void SSL_free(SSL *ssl);
 #ifdef OSSL_ASYNC_FD
@@ -2964,5 +2936,5 @@ int SSL_set_quic_tls_early_data_enabled(SSL *s, int enabled);
 
 #ifdef __cplusplus
 }
-# endif
+#endif
 #endif

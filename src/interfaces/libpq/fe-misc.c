@@ -811,7 +811,6 @@ pqSendSome(PGconn *conn, int len)
 {
 	char	   *ptr = conn->outBuffer;
 	int			remaining = conn->outCount;
-	int			oldmsglen = conn->errorMessage.len;
 	int			result = 0;
 
 	/*

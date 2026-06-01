@@ -25,7 +25,6 @@ extern "C" {
 
 #include <stdlib.h>
 
-# if OPENSSL_API_COMPAT < 0x10100000L
 /*
  * DH parameter generation types used by EVP_PKEY_CTX_set_dh_paramgen_type()
  * Note that additions/changes to this set of values requires corresponding
@@ -330,6 +329,5 @@ OSSL_DEPRECATEDIN_0_9_8 DH *DH_generate_parameters(int prime_len, int generator,
 #endif
 #ifdef __cplusplus
 }
-#  endif
-# endif
+#endif
 #endif

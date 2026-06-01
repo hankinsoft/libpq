@@ -3,7 +3,7 @@
  * generic-msvc.h
  *	  Atomic operations support when using MSVC
  *
- * Portions Copyright (c) 1996-2021, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2024, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
  * NOTES:
@@ -39,7 +39,7 @@ typedef struct pg_atomic_uint32
 } pg_atomic_uint32;
 
 #define PG_HAVE_ATOMIC_U64_SUPPORT
-typedef struct __declspec(align(8)) pg_atomic_uint64
+typedef struct pg_attribute_aligned(8) pg_atomic_uint64
 {
 	volatile uint64 value;
 } pg_atomic_uint64;
@@ -56,6 +56,13 @@ pg_atomic_compare_exchange_u32_impl(volatile pg_atomic_uint32 *ptr,
 	ret = current == *expected;
 	*expected = current;
 	return ret;
+}
+
+#define PG_HAVE_ATOMIC_EXCHANGE_U32
+static inline uint32
+pg_atomic_exchange_u32_impl(volatile pg_atomic_uint32 *ptr, uint32 newval)
+{
+	return InterlockedExchange(&ptr->value, newval);
 }
 
 #define PG_HAVE_ATOMIC_FETCH_ADD_U32
@@ -86,8 +93,18 @@ pg_atomic_compare_exchange_u64_impl(volatile pg_atomic_uint64 *ptr,
 	return ret;
 }
 
-/* Only implemented on itanium and 64bit builds */
+/* Only implemented on 64bit builds */
 #ifdef _WIN64
+
+#pragma intrinsic(_InterlockedExchange64)
+
+#define PG_HAVE_ATOMIC_EXCHANGE_U64
+static inline uint64
+pg_atomic_exchange_u64_impl(volatile pg_atomic_uint64 *ptr, uint64 newval)
+{
+	return _InterlockedExchange64(&ptr->value, newval);
+}
+
 #pragma intrinsic(_InterlockedExchangeAdd64)
 
 #define PG_HAVE_ATOMIC_FETCH_ADD_U64
@@ -96,6 +113,7 @@ pg_atomic_fetch_add_u64_impl(volatile pg_atomic_uint64 *ptr, int64 add_)
 {
 	return _InterlockedExchangeAdd64(&ptr->value, add_);
 }
+
 #endif /* _WIN64 */
 
 #endif /* HAVE_ATOMICS */

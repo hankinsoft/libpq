@@ -24,15 +24,6 @@
 #include "port/win32_port.h"
 #endif
 
-/*
- * Windows has enough specialized port stuff that we push most of it off
- * into another file.
- * Note: Some CYGWIN includes might #define WIN32.
- */
-#if defined(WIN32) && !defined(__CYGWIN__)
-#include "port/win32_port.h"
-#endif
-
 /* socket has a different definition on WIN32 */
 #ifndef WIN32
 typedef int pgsocket;
@@ -456,25 +447,6 @@ extern char *mkdtemp(char *path);
 #include <arpa/inet.h>
 extern int	inet_aton(const char *cp, struct in_addr *addr);
 #endif
-
-/*
- * Windows and older Unix don't have pread(2) and pwrite(2).  We have
- * replacement functions, but they have slightly different semantics so we'll
- * use a name with a pg_ prefix to avoid confusion.
- */
-#ifdef HAVE_PREAD
-#define pg_pread pread
-#else
-extern ssize_t pg_pread(int fd, void *buf, size_t nbyte, off_t offset);
-#endif
-
-#ifdef HAVE_PWRITE
-#define pg_pwrite pwrite
-#else
-extern ssize_t pg_pwrite(int fd, const void *buf, size_t nbyte, off_t offset);
-#endif
-
-/* For pg_pwritev() and pg_preadv(), see port/pg_iovec.h. */
 
 #if !HAVE_DECL_STRLCAT
 extern size_t strlcat(char *dst, const char *src, size_t siz);

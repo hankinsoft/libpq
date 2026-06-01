@@ -214,8 +214,6 @@ void CRYPTO_ocb128_cleanup(OCB128_CONTEXT *ctx);
 
 #ifdef __cplusplus
 }
-# endif
-
 #endif
 
 #endif

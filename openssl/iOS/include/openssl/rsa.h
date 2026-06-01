@@ -610,6 +610,5 @@ int RSA_meth_set_multi_prime_keygen(RSA_METHOD *meth,
 
 #ifdef __cplusplus
 }
-#  endif
-# endif
+#endif
 #endif

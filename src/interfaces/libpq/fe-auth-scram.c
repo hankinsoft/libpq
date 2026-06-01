@@ -879,35 +879,6 @@ verify_server_signature(fe_scram_state *state, bool *match,
 	else
 		*match = true;
 
-	if (scram_ServerKey(state->SaltedPassword, ServerKey) < 0 ||
-	/* calculate ServerSignature */
-		pg_hmac_init(ctx, ServerKey, SCRAM_KEY_LEN) < 0 ||
-		pg_hmac_update(ctx,
-					   (uint8 *) state->client_first_message_bare,
-					   strlen(state->client_first_message_bare)) < 0 ||
-		pg_hmac_update(ctx, (uint8 *) ",", 1) < 0 ||
-		pg_hmac_update(ctx,
-					   (uint8 *) state->server_first_message,
-					   strlen(state->server_first_message)) < 0 ||
-		pg_hmac_update(ctx, (uint8 *) ",", 1) < 0 ||
-		pg_hmac_update(ctx,
-					   (uint8 *) state->client_final_message_without_proof,
-					   strlen(state->client_final_message_without_proof)) < 0 ||
-		pg_hmac_final(ctx, expected_ServerSignature,
-					  sizeof(expected_ServerSignature)) < 0)
-	{
-		pg_hmac_free(ctx);
-		return false;
-	}
-
-	pg_hmac_free(ctx);
-
-	/* signature processed, so now check after it */
-	if (memcmp(expected_ServerSignature, state->ServerSignature, SCRAM_KEY_LEN) != 0)
-		*match = false;
-	else
-		*match = true;
-
 	return true;
 }
 

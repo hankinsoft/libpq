@@ -256,9 +256,6 @@
 /* Define to 1 if you have the `ldap_initialize' function. */
 /* #undef HAVE_LDAP_INITIALIZE */
 
-/* Define to 1 if you have the `ldap_initialize' function. */
-/* #undef HAVE_LDAP_INITIALIZE */
-
 /* Define to 1 if you have the `crypto' library (-lcrypto). */
 #define HAVE_LIBCRYPTO 1
 
@@ -303,9 +300,6 @@
 
 /* Define to 1 if `long long int' works and is 64 bits. */
 /* #undef HAVE_LONG_LONG_INT_64 */
-
-/* Define to 1 if you have the <lz4.h> header file. */
-/* #undef HAVE_LZ4_H */
 
 /* Define to 1 if you have the <mbarrier.h> header file. */
 /* #undef HAVE_MBARRIER_H */
@@ -365,20 +359,8 @@
    */
 /* #undef HAVE_RL_COMPLETION_SUPPRESS_QUOTE */
 
-/* Define to 1 if you have the global variable 'rl_completion_suppress_quote'.
-   */
-/* #undef HAVE_RL_COMPLETION_SUPPRESS_QUOTE */
-
 /* Define to 1 if you have the `rl_filename_completion_function' function. */
 /* #undef HAVE_RL_FILENAME_COMPLETION_FUNCTION */
-
-/* Define to 1 if you have the global variable 'rl_filename_quote_characters'.
-   */
-/* #undef HAVE_RL_FILENAME_QUOTE_CHARACTERS */
-
-/* Define to 1 if you have the global variable 'rl_filename_quoting_function'.
-   */
-/* #undef HAVE_RL_FILENAME_QUOTING_FUNCTION */
 
 /* Define to 1 if you have the global variable 'rl_filename_quote_characters'.
    */
@@ -450,9 +432,6 @@
 
 /* Define to 1 if `tm_zone' is a member of `struct tm'. */
 #define HAVE_STRUCT_TM_TM_ZONE 1
-
-/* Define to 1 if you have the `syncfs' function. */
-/* #undef HAVE_SYNCFS */
 
 /* Define to 1 if you have the `syncfs' function. */
 /* #undef HAVE_SYNCFS */
@@ -546,21 +525,6 @@
 
 /* Define to 1 if you have XSAVE intrinsics. */
 /* #undef HAVE_XSAVE_INTRINSICS */
-
-/* Define to 1 if your compiler understands __builtin_bswap16. */
-#define HAVE__BUILTIN_BSWAP16 1
-
-/* Define to 1 if you have the `writev' function. */
-#define HAVE_WRITEV 1
-
-/* Define to 1 if you have the `X509_get_signature_nid' function. */
-#define HAVE_X509_GET_SIGNATURE_NID 1
-
-/* Define to 1 if the assembler supports X86_64's POPCNTQ instruction. */
-/* #undef HAVE_X86_64_POPCNTQ */
-
-/* Define to 1 if the system has the type `_Bool'. */
-#define HAVE__BOOL 1
 
 /* Define to 1 if your compiler understands __builtin_bswap16. */
 #define HAVE__BUILTIN_BSWAP16 1
@@ -673,9 +637,6 @@
 
 /* PostgreSQL minor version number */
 #define PG_MINORVERSION_NUM 10
-
-/* Define to 1 to use <stdbool.h> to define type bool. */
-#define PG_USE_STDBOOL 1
 
 /* Define to 1 to use <stdbool.h> to define type bool. */
 #define PG_USE_STDBOOL 1

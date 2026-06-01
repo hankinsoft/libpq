@@ -77,35 +77,6 @@ extern "C" {
 /* Custom type maximum index that can be returned by BIO_get_new_index() */
 #define BIO_TYPE_MASK 0xFF
 
-/* These are the 'types' of BIOs */
-# define BIO_TYPE_NONE             0
-# define BIO_TYPE_MEM            ( 1|BIO_TYPE_SOURCE_SINK)
-# define BIO_TYPE_FILE           ( 2|BIO_TYPE_SOURCE_SINK)
-
-# define BIO_TYPE_FD             ( 4|BIO_TYPE_SOURCE_SINK|BIO_TYPE_DESCRIPTOR)
-# define BIO_TYPE_SOCKET         ( 5|BIO_TYPE_SOURCE_SINK|BIO_TYPE_DESCRIPTOR)
-# define BIO_TYPE_NULL           ( 6|BIO_TYPE_SOURCE_SINK)
-# define BIO_TYPE_SSL            ( 7|BIO_TYPE_FILTER)
-# define BIO_TYPE_MD             ( 8|BIO_TYPE_FILTER)
-# define BIO_TYPE_BUFFER         ( 9|BIO_TYPE_FILTER)
-# define BIO_TYPE_CIPHER         (10|BIO_TYPE_FILTER)
-# define BIO_TYPE_BASE64         (11|BIO_TYPE_FILTER)
-# define BIO_TYPE_CONNECT        (12|BIO_TYPE_SOURCE_SINK|BIO_TYPE_DESCRIPTOR)
-# define BIO_TYPE_ACCEPT         (13|BIO_TYPE_SOURCE_SINK|BIO_TYPE_DESCRIPTOR)
-
-# define BIO_TYPE_NBIO_TEST      (16|BIO_TYPE_FILTER)/* server proxy BIO */
-# define BIO_TYPE_NULL_FILTER    (17|BIO_TYPE_FILTER)
-# define BIO_TYPE_BIO            (19|BIO_TYPE_SOURCE_SINK)/* half a BIO pair */
-# define BIO_TYPE_LINEBUFFER     (20|BIO_TYPE_FILTER)
-# define BIO_TYPE_DGRAM          (21|BIO_TYPE_SOURCE_SINK|BIO_TYPE_DESCRIPTOR)
-# define BIO_TYPE_ASN1           (22|BIO_TYPE_FILTER)
-# define BIO_TYPE_COMP           (23|BIO_TYPE_FILTER)
-# ifndef OPENSSL_NO_SCTP
-#  define BIO_TYPE_DGRAM_SCTP    (24|BIO_TYPE_SOURCE_SINK|BIO_TYPE_DESCRIPTOR)
-# endif
-
-#define BIO_TYPE_START           128
-
 /*
  * BIO_FILENAME_READ|BIO_CLOSE to open or close on free.
  * BIO_set_fp(in,stdin,BIO_NOCLOSE);
@@ -241,8 +212,6 @@ extern "C" {
 #define BIO_get_ktls_send(b) (0)
 #define BIO_get_ktls_recv(b) (0)
 #endif
-
-# define BIO_CTRL_DGRAM_SET_PEEK_MODE      71
 
 /* modifiers */
 #define BIO_FP_READ 0x02
@@ -1055,5 +1024,5 @@ OSSL_DEPRECATEDIN_3_5 long (*BIO_meth_get_callback_ctrl(const BIO_METHOD *biom))
 #endif
 #ifdef __cplusplus
 }
-# endif
+#endif
 #endif

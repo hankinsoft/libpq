@@ -456,38 +456,6 @@ OSSL_DEPRECATEDIN_3_0 int (*EVP_CIPHER_meth_get_ctrl(const EVP_CIPHER *cipher))(
 #define EVP_PADDING_ISO10126 4
 #define EVP_PADDING_ZERO 5
 
-# define         EVP_CTRL_SSL3_MASTER_SECRET             0x1d
-
-/* EVP_CTRL_SET_SBOX takes the char * specifying S-boxes */
-# define         EVP_CTRL_SET_SBOX                       0x1e
-/*
- * EVP_CTRL_SBOX_USED takes a 'size_t' and 'char *', pointing at a
- * pre-allocated buffer with specified size
- */
-# define         EVP_CTRL_SBOX_USED                      0x1f
-/* EVP_CTRL_KEY_MESH takes 'size_t' number of bytes to mesh the key after,
- * 0 switches meshing off
- */
-# define         EVP_CTRL_KEY_MESH                       0x20
-/* EVP_CTRL_BLOCK_PADDING_MODE takes the padding mode */
-# define         EVP_CTRL_BLOCK_PADDING_MODE             0x21
-
-/* Set the output buffers to use for a pipelined operation */
-# define         EVP_CTRL_SET_PIPELINE_OUTPUT_BUFS       0x22
-/* Set the input buffers to use for a pipelined operation */
-# define         EVP_CTRL_SET_PIPELINE_INPUT_BUFS        0x23
-/* Set the input buffer lengths to use for a pipelined operation */
-# define         EVP_CTRL_SET_PIPELINE_INPUT_LENS        0x24
-
-# define         EVP_CTRL_GET_IVLEN                      0x25
-
-/* Padding modes */
-#define EVP_PADDING_PKCS7       1
-#define EVP_PADDING_ISO7816_4   2
-#define EVP_PADDING_ANSI923     3
-#define EVP_PADDING_ISO10126    4
-#define EVP_PADDING_ZERO        5
-
 /* RFC 5246 defines additional data to be 13 bytes in length */
 #define EVP_AEAD_TLS1_AAD_LEN 13
 
@@ -520,21 +488,6 @@ typedef struct {
 
 /* Length of tag for TLS */
 #define EVP_CHACHAPOLY_TLS_TAG_LEN 16
-
-/* CCM TLS constants */
-/* Length of fixed part of IV derived from PRF */
-# define EVP_CCM_TLS_FIXED_IV_LEN                        4
-/* Length of explicit part of IV part of TLS records */
-# define EVP_CCM_TLS_EXPLICIT_IV_LEN                     8
-/* Total length of CCM IV length for TLS */
-# define EVP_CCM_TLS_IV_LEN                              12
-/* Length of tag for TLS */
-# define EVP_CCM_TLS_TAG_LEN                             16
-/* Length of CCM8 tag for TLS */
-# define EVP_CCM8_TLS_TAG_LEN                            8
-
-/* Length of tag for TLS */
-# define EVP_CHACHAPOLY_TLS_TAG_LEN                      16
 
 typedef struct evp_cipher_info_st {
     const EVP_CIPHER *cipher;
@@ -1608,17 +1561,6 @@ int PKCS5_v2_scrypt_keyivgen_ex(EVP_CIPHER_CTX *ctx, const char *pass,
     OSSL_LIB_CTX *libctx, const char *propq);
 #endif
 
-#ifndef OPENSSL_NO_SCRYPT
-int EVP_PBE_scrypt(const char *pass, size_t passlen,
-                   const unsigned char *salt, size_t saltlen,
-                   uint64_t N, uint64_t r, uint64_t p, uint64_t maxmem,
-                   unsigned char *key, size_t keylen);
-
-int PKCS5_v2_scrypt_keyivgen(EVP_CIPHER_CTX *ctx, const char *pass,
-                             int passlen, ASN1_TYPE *param,
-                             const EVP_CIPHER *c, const EVP_MD *md, int en_de);
-#endif
-
 void PKCS5_PBE_add(void);
 
 int EVP_PBE_CipherInit(ASN1_OBJECT *pbe_obj, const char *pass, int passlen,
@@ -1662,9 +1604,6 @@ int EVP_PBE_get(int *ptype, int *ppbe_nid, size_t num);
 #define ASN1_PKEY_CTRL_SET1_TLS_ENCPT 0x9
 #define ASN1_PKEY_CTRL_GET1_TLS_ENCPT 0xa
 #define ASN1_PKEY_CTRL_CMS_IS_RI_TYPE_SUPPORTED 0xb
-
-# define ASN1_PKEY_CTRL_SET1_TLS_ENCPT   0x9
-# define ASN1_PKEY_CTRL_GET1_TLS_ENCPT   0xa
 
 int EVP_PKEY_asn1_get_count(void);
 const EVP_PKEY_ASN1_METHOD *EVP_PKEY_asn1_get0(int idx);
@@ -2279,32 +2218,6 @@ int EVP_KEYEXCH_names_do_all(const EVP_KEYEXCH *keyexch,
 const OSSL_PARAM *EVP_KEYEXCH_gettable_ctx_params(const EVP_KEYEXCH *keyexch);
 const OSSL_PARAM *EVP_KEYEXCH_settable_ctx_params(const EVP_KEYEXCH *keyexch);
 
-void EVP_PKEY_meth_get_digestsign(EVP_PKEY_METHOD *pmeth,
-                                  int (**digestsign) (EVP_MD_CTX *ctx,
-                                                      unsigned char *sig,
-                                                      size_t *siglen,
-                                                      const unsigned char *tbs,
-                                                      size_t tbslen));
-
-void EVP_PKEY_meth_get_digestverify(EVP_PKEY_METHOD *pmeth,
-                                    int (**digestverify) (EVP_MD_CTX *ctx,
-                                                          const unsigned char *sig,
-                                                          size_t siglen,
-                                                          const unsigned char *tbs,
-                                                          size_t tbslen));
-
-void EVP_PKEY_meth_get_check(const EVP_PKEY_METHOD *pmeth,
-                             int (**pcheck) (EVP_PKEY *pkey));
-
-void EVP_PKEY_meth_get_public_check(const EVP_PKEY_METHOD *pmeth,
-                                    int (**pcheck) (EVP_PKEY *pkey));
-
-void EVP_PKEY_meth_get_param_check(const EVP_PKEY_METHOD *pmeth,
-                                   int (**pcheck) (EVP_PKEY *pkey));
-
-void EVP_PKEY_meth_get_digest_custom(EVP_PKEY_METHOD *pmeth,
-                                     int (**pdigest_custom) (EVP_PKEY_CTX *ctx,
-                                                             EVP_MD_CTX *mctx));
 void EVP_add_alg_module(void);
 
 int EVP_PKEY_CTX_set_group_name(EVP_PKEY_CTX *ctx, const char *name);

@@ -366,5 +366,5 @@ int PKCS12_newpass(PKCS12 *p12, const char *oldpass, const char *newpass);
 
 #ifdef __cplusplus
 }
-# endif
+#endif
 #endif

@@ -23,7 +23,7 @@
 #include <stddef.h>
 #ifdef __cplusplus
 extern "C" {
-# endif
+#endif
 
 #define WHIRLPOOL_DIGEST_LENGTH (512 / 8)
 

@@ -299,6 +299,5 @@ SKM_DEFINE_STACK_OF_INTERNAL(OPENSSL_BLOCK, void, void)
 
 #ifdef __cplusplus
 }
-# endif
 #endif
 #endif

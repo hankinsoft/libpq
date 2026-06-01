@@ -916,18 +916,6 @@ extern void ExceptionalCondition(const char *conditionName,
 #endif
 
 /*
- * ExceptionalCondition is compiled into the backend whether or not
- * USE_ASSERT_CHECKING is defined, so as to support use of extensions
- * that are built with that #define with a backend that isn't.  Hence,
- * we should declare it as long as !FRONTEND.
- */
-#ifndef FRONTEND
-extern void ExceptionalCondition(const char *conditionName,
-								 const char *errorType,
-								 const char *fileName, int lineNumber) pg_attribute_noreturn();
-#endif
-
-/*
  * Macros to support compile-time assertion checks.
  *
  * If the "condition" (a compile-time-constant expression) evaluates to false,
@@ -961,8 +949,6 @@ extern void ExceptionalCondition(const char *conditionName,
 	((void) sizeof(struct { int static_assert_failure : (condition) ? 1 : -1; }))
 #define StaticAssertExpr(condition, errmessage) \
 	StaticAssertStmt(condition, errmessage)
-#define StaticAssertDecl(condition, errmessage) \
-	extern void static_assert_func(int static_assert_failure[(condition) ? 1 : -1])
 #endif							/* HAVE__STATIC_ASSERT */
 #else							/* C++ */
 #if defined(__cpp_static_assert) && __cpp_static_assert >= 200410
@@ -1094,30 +1080,6 @@ extern void ExceptionalCondition(const char *conditionName,
 			memset(_start, _val, _len); \
 	} while (0)
 
-
-/*
- * Macros for range-checking float values before converting to integer.
- * We must be careful here that the boundary values are expressed exactly
- * in the float domain.  PG_INTnn_MIN is an exact power of 2, so it will
- * be represented exactly; but PG_INTnn_MAX isn't, and might get rounded
- * off, so avoid using that.
- * The input must be rounded to an integer beforehand, typically with rint(),
- * else we might draw the wrong conclusion about close-to-the-limit values.
- * These macros will do the right thing for Inf, but not necessarily for NaN,
- * so check isnan(num) first if that's a possibility.
- */
-#define FLOAT4_FITS_IN_INT16(num) \
-	((num) >= (float4) PG_INT16_MIN && (num) < -((float4) PG_INT16_MIN))
-#define FLOAT4_FITS_IN_INT32(num) \
-	((num) >= (float4) PG_INT32_MIN && (num) < -((float4) PG_INT32_MIN))
-#define FLOAT4_FITS_IN_INT64(num) \
-	((num) >= (float4) PG_INT64_MIN && (num) < -((float4) PG_INT64_MIN))
-#define FLOAT8_FITS_IN_INT16(num) \
-	((num) >= (float8) PG_INT16_MIN && (num) < -((float8) PG_INT16_MIN))
-#define FLOAT8_FITS_IN_INT32(num) \
-	((num) >= (float8) PG_INT32_MIN && (num) < -((float8) PG_INT32_MIN))
-#define FLOAT8_FITS_IN_INT64(num) \
-	((num) >= (float8) PG_INT64_MIN && (num) < -((float8) PG_INT64_MIN))
 
 /*
  * Macros for range-checking float values before converting to integer.

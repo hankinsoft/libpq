@@ -103,7 +103,6 @@ extern "C" {
 #define TLSEXT_TYPE_elliptic_curves TLSEXT_TYPE_supported_groups
 #define TLSEXT_TYPE_ec_point_formats 11
 
-
 /* ExtensionType value from RFC5054 */
 #define TLSEXT_TYPE_srp 12
 
@@ -131,12 +130,6 @@ extern "C" {
 #define TLSEXT_TYPE_server_cert_type 20
 
 /*
- * Extension type for Certificate Transparency
- * https://tools.ietf.org/html/rfc6962#section-3.3.1
- */
-# define TLSEXT_TYPE_signed_certificate_timestamp    18
-
-/*
  * ExtensionType value for TLS padding extension.
  * http://tools.ietf.org/html/draft-agl-tls-padding
  */
@@ -150,12 +143,6 @@ extern "C" {
 
 /* ExtensionType value from RFC8879 */
 #define TLSEXT_TYPE_compress_certificate 27
-
-/* ExtensionType value from RFC7366 */
-# define TLSEXT_TYPE_encrypt_then_mac    22
-
-/* ExtensionType value from RFC7627 */
-# define TLSEXT_TYPE_extended_master_secret      23
 
 /* ExtensionType value from RFC4507 */
 #define TLSEXT_TYPE_session_ticket 35

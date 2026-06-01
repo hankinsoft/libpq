@@ -524,9 +524,6 @@ pg_SASL_init(PGconn *conn, int payloadlen)
 			conn->sasl = &pg_scram_mech;
 			conn->password_needed = true;
 		}
-		else if (strcmp(mechanism_buf.data, SCRAM_SHA_256_NAME) == 0 &&
-				 !selected_mechanism)
-			selected_mechanism = SCRAM_SHA_256_NAME;
 	}
 
 	if (!selected_mechanism)

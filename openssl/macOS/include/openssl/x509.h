@@ -794,9 +794,6 @@ int X509_keyid_set1(X509 *x, const unsigned char *id, int len);
 unsigned char *X509_alias_get0(X509 *x, int *len);
 unsigned char *X509_keyid_get0(X509 *x, int *len);
 
-STACK_OF(ASN1_OBJECT) *X509_get0_trust_objects(X509 *x);
-STACK_OF(ASN1_OBJECT) *X509_get0_reject_objects(X509 *x);
-
 DECLARE_ASN1_FUNCTIONS(X509_REVOKED)
 DECLARE_ASN1_FUNCTIONS(X509_CRL_INFO)
 DECLARE_ASN1_FUNCTIONS(X509_CRL)
@@ -1255,13 +1252,6 @@ X509_ALGOR *PKCS5_pbe2_set_scrypt(const EVP_CIPHER *cipher,
     const unsigned char *salt, int saltlen,
     unsigned char *aiv, uint64_t N, uint64_t r,
     uint64_t p);
-#endif
-
-#ifndef OPENSSL_NO_SCRYPT
-X509_ALGOR *PKCS5_pbe2_set_scrypt(const EVP_CIPHER *cipher,
-                                  const unsigned char *salt, int saltlen,
-                                  unsigned char *aiv, uint64_t N, uint64_t r,
-                                  uint64_t p);
 #endif
 
 X509_ALGOR *PKCS5_pbkdf2_set(int iter, unsigned char *salt, int saltlen,

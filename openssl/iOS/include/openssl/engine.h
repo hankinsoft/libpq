@@ -36,7 +36,7 @@
 #include <openssl/engineerr.h>
 #ifdef __cplusplus
 extern "C" {
-# endif
+#endif
 
 /*
  * These flags are used to control combinations of algorithm (methods) by

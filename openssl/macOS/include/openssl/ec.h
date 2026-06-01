@@ -268,12 +268,6 @@ int EC_GROUP_get_cofactor(const EC_GROUP *group, BIGNUM *cofactor,
  */
 const BIGNUM *EC_GROUP_get0_cofactor(const EC_GROUP *group);
 
-/** Gets the cofactor of an EC_GROUP
- *  \param  group  EC_GROUP object
- *  \return the group cofactor
- */
-const BIGNUM *EC_GROUP_get0_cofactor(const EC_GROUP *group);
-
 /** Sets the name of a EC_GROUP object
  *  \param  group  EC_GROUP object
  *  \param  nid    NID of the curve name OID
@@ -782,18 +776,6 @@ size_t EC_POINT_point2buf(const EC_GROUP *group, const EC_POINT *point,
     point_conversion_form_t form,
     unsigned char **pbuf, BN_CTX *ctx);
 
-/** Encodes an EC_POINT object to an allocated octet string
- *  \param  group  underlying EC_GROUP object
- *  \param  point  EC_POINT object
- *  \param  form   point conversion form
- *  \param  pbuf   returns pointer to allocated buffer
- *  \param  ctx    BN_CTX object (optional)
- *  \return the length of the encoded octet string or 0 if an error occurred
- */
-size_t EC_POINT_point2buf(const EC_GROUP *group, const EC_POINT *point,
-                          point_conversion_form_t form,
-                          unsigned char **pbuf, BN_CTX *ctx);
-
 /* other interfaces to point2oct/oct2point: */
 #ifndef OPENSSL_NO_DEPRECATED_3_0
 OSSL_DEPRECATEDIN_3_0 BIGNUM *EC_POINT_point2bn(const EC_GROUP *,
@@ -1056,12 +1038,6 @@ OSSL_DEPRECATEDIN_3_0 int EC_KEY_up_ref(EC_KEY *key);
  */
 OSSL_DEPRECATEDIN_3_0 ENGINE *EC_KEY_get0_engine(const EC_KEY *eckey);
 
-/** Returns the ENGINE object of a EC_KEY object
- *  \param  eckey  EC_KEY object
- *  \return the ENGINE object (possibly NULL).
- */
-ENGINE *EC_KEY_get0_engine(const EC_KEY *eckey);
-
 /** Returns the EC_GROUP object of a EC_KEY object
  *  \param  key  EC_KEY object
  *  \return the EC_GROUP object (possibly NULL).
@@ -1208,53 +1184,6 @@ OSSL_DEPRECATEDIN_3_0 size_t EC_KEY_priv2oct(const EC_KEY *key,
  */
 OSSL_DEPRECATEDIN_3_0 size_t EC_KEY_priv2buf(const EC_KEY *eckey,
     unsigned char **pbuf);
-
-/** Encodes an EC_KEY public key to an allocated octet string
- *  \param  key    key to encode
- *  \param  form   point conversion form
- *  \param  pbuf   returns pointer to allocated buffer
- *  \param  ctx    BN_CTX object (optional)
- *  \return the length of the encoded octet string or 0 if an error occurred
- */
-size_t EC_KEY_key2buf(const EC_KEY *key, point_conversion_form_t form,
-                      unsigned char **pbuf, BN_CTX *ctx);
-
-/** Decodes a EC_KEY public key from a octet string
- *  \param  key    key to decode
- *  \param  buf    memory buffer with the encoded ec point
- *  \param  len    length of the encoded ec point
- *  \param  ctx    BN_CTX object (optional)
- *  \return 1 on success and 0 if an error occurred
- */
-
-int EC_KEY_oct2key(EC_KEY *key, const unsigned char *buf, size_t len,
-                   BN_CTX *ctx);
-
-/** Decodes an EC_KEY private key from an octet string
- *  \param  key    key to decode
- *  \param  buf    memory buffer with the encoded private key
- *  \param  len    length of the encoded key
- *  \return 1 on success and 0 if an error occurred
- */
-
-int EC_KEY_oct2priv(EC_KEY *key, const unsigned char *buf, size_t len);
-
-/** Encodes a EC_KEY private key to an octet string
- *  \param  key    key to encode
- *  \param  buf    memory buffer for the result. If NULL the function returns
- *                 required buffer size.
- *  \param  len    length of the memory buffer
- *  \return the length of the encoded octet string or 0 if an error occurred
- */
-
-size_t EC_KEY_priv2oct(const EC_KEY *key, unsigned char *buf, size_t len);
-
-/** Encodes an EC_KEY private key to an allocated octet string
- *  \param  eckey  key to encode
- *  \param  pbuf   returns pointer to allocated buffer
- *  \return the length of the encoded octet string or 0 if an error occurred
- */
-size_t EC_KEY_priv2buf(const EC_KEY *eckey, unsigned char **pbuf);
 
 /********************************************************************/
 /*        de- and encoding functions for SEC1 ECPrivateKey          */
@@ -1411,7 +1340,6 @@ DECLARE_ASN1_ENCODE_FUNCTIONS_only(ECDSA_SIG, ECDSA_SIG)
  *  \param  len  length of the buffer
  *  \return pointer to the decoded ECDSA_SIG structure (or NULL)
  */
-# define EVP_PKEY_ECDH_KDF_X9_62   EVP_PKEY_ECDH_KDF_X9_63
 
 /** Accessor for r and s fields of ECDSA_SIG
  *  \param  sig  pointer to ECDSA_SIG structure

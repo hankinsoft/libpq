@@ -182,5 +182,5 @@ void OBJ_sigid_free(void);
 
 #ifdef __cplusplus
 }
-# endif
+#endif
 #endif

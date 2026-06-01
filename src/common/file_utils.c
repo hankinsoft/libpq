@@ -5,7 +5,7 @@
  * Assorted utility functions to work on files.
  *
  *
- * Portions Copyright (c) 1996-2021, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2024, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
  * src/common/file_utils.c
@@ -28,6 +28,7 @@
 #ifdef FRONTEND
 #include "common/logging.h"
 #endif
+#include "port/pg_iovec.h"
 
 #ifdef FRONTEND
 
@@ -50,19 +51,52 @@ static void walkdir(const char *path,
 					int (*action) (const char *fname, bool isdir),
 					bool process_symlinks);
 
+#ifdef HAVE_SYNCFS
+
 /*
- * Issue fsync recursively on PGDATA and all its contents.
+ * do_syncfs -- Try to syncfs a file system
  *
- * We fsync regular files and directories wherever they are, but we follow
+ * Reports errors trying to open the path.  syncfs() errors are fatal.
+ */
+static void
+do_syncfs(const char *path)
+{
+	int			fd;
+
+	fd = open(path, O_RDONLY, 0);
+
+	if (fd < 0)
+	{
+		pg_log_error("could not open file \"%s\": %m", path);
+		return;
+	}
+
+	if (syncfs(fd) < 0)
+	{
+		pg_log_error("could not synchronize file system for file \"%s\": %m", path);
+		(void) close(fd);
+		exit(EXIT_FAILURE);
+	}
+
+	(void) close(fd);
+}
+
+#endif							/* HAVE_SYNCFS */
+
+/*
+ * Synchronize PGDATA and all its contents.
+ *
+ * We sync regular files and directories wherever they are, but we follow
  * symlinks only for pg_wal (or pg_xlog) and immediately under pg_tblspc.
  * Other symlinks are presumed to point at files we're not responsible for
- * fsyncing, and might not have privileges to write at all.
+ * syncing, and might not have privileges to write at all.
  *
- * serverVersion indicates the version of the server to be fsync'd.
+ * serverVersion indicates the version of the server to be sync'd.
  */
 void
-fsync_pgdata(const char *pg_data,
-			 int serverVersion)
+sync_pgdata(const char *pg_data,
+			int serverVersion,
+			DataDirSyncMethod sync_method)
 {
 	bool		xlog_is_symlink;
 	char		pg_wal[MAXPGPATH];
@@ -79,7 +113,6 @@ fsync_pgdata(const char *pg_data,
 	 */
 	xlog_is_symlink = false;
 
-#ifndef WIN32
 	{
 		struct stat st;
 
@@ -88,54 +121,136 @@ fsync_pgdata(const char *pg_data,
 		else if (S_ISLNK(st.st_mode))
 			xlog_is_symlink = true;
 	}
+
+	switch (sync_method)
+	{
+		case DATA_DIR_SYNC_METHOD_SYNCFS:
+			{
+#ifndef HAVE_SYNCFS
+				pg_log_error("this build does not support sync method \"%s\"",
+							 "syncfs");
+				exit(EXIT_FAILURE);
 #else
-	if (pgwin32_is_junction(pg_wal))
-		xlog_is_symlink = true;
-#endif
+				DIR		   *dir;
+				struct dirent *de;
 
-	/*
-	 * If possible, hint to the kernel that we're soon going to fsync the data
-	 * directory and its contents.
-	 */
+				/*
+				 * On Linux, we don't have to open every single file one by
+				 * one.  We can use syncfs() to sync whole filesystems.  We
+				 * only expect filesystem boundaries to exist where we
+				 * tolerate symlinks, namely pg_wal and the tablespaces, so we
+				 * call syncfs() for each of those directories.
+				 */
+
+				/* Sync the top level pgdata directory. */
+				do_syncfs(pg_data);
+
+				/* If any tablespaces are configured, sync each of those. */
+				dir = opendir(pg_tblspc);
+				if (dir == NULL)
+					pg_log_error("could not open directory \"%s\": %m",
+								 pg_tblspc);
+				else
+				{
+					while (errno = 0, (de = readdir(dir)) != NULL)
+					{
+						char		subpath[MAXPGPATH * 2];
+
+						if (strcmp(de->d_name, ".") == 0 ||
+							strcmp(de->d_name, "..") == 0)
+							continue;
+
+						snprintf(subpath, sizeof(subpath), "%s/%s",
+								 pg_tblspc, de->d_name);
+						do_syncfs(subpath);
+					}
+
+					if (errno)
+						pg_log_error("could not read directory \"%s\": %m",
+									 pg_tblspc);
+
+					(void) closedir(dir);
+				}
+
+				/* If pg_wal is a symlink, process that too. */
+				if (xlog_is_symlink)
+					do_syncfs(pg_wal);
+#endif							/* HAVE_SYNCFS */
+			}
+			break;
+
+		case DATA_DIR_SYNC_METHOD_FSYNC:
+			{
+				/*
+				 * If possible, hint to the kernel that we're soon going to
+				 * fsync the data directory and its contents.
+				 */
 #ifdef PG_FLUSH_DATA_WORKS
-	walkdir(pg_data, pre_sync_fname, false);
-	if (xlog_is_symlink)
-		walkdir(pg_wal, pre_sync_fname, false);
-	walkdir(pg_tblspc, pre_sync_fname, true);
+				walkdir(pg_data, pre_sync_fname, false);
+				if (xlog_is_symlink)
+					walkdir(pg_wal, pre_sync_fname, false);
+				walkdir(pg_tblspc, pre_sync_fname, true);
 #endif
 
-	/*
-	 * Now we do the fsync()s in the same order.
-	 *
-	 * The main call ignores symlinks, so in addition to specially processing
-	 * pg_wal if it's a symlink, pg_tblspc has to be visited separately with
-	 * process_symlinks = true.  Note that if there are any plain directories
-	 * in pg_tblspc, they'll get fsync'd twice.  That's not an expected case
-	 * so we don't worry about optimizing it.
-	 */
-	walkdir(pg_data, fsync_fname, false);
-	if (xlog_is_symlink)
-		walkdir(pg_wal, fsync_fname, false);
-	walkdir(pg_tblspc, fsync_fname, true);
+				/*
+				 * Now we do the fsync()s in the same order.
+				 *
+				 * The main call ignores symlinks, so in addition to specially
+				 * processing pg_wal if it's a symlink, pg_tblspc has to be
+				 * visited separately with process_symlinks = true.  Note that
+				 * if there are any plain directories in pg_tblspc, they'll
+				 * get fsync'd twice. That's not an expected case so we don't
+				 * worry about optimizing it.
+				 */
+				walkdir(pg_data, fsync_fname, false);
+				if (xlog_is_symlink)
+					walkdir(pg_wal, fsync_fname, false);
+				walkdir(pg_tblspc, fsync_fname, true);
+			}
+			break;
+	}
 }
 
 /*
- * Issue fsync recursively on the given directory and all its contents.
+ * Synchronize the given directory and all its contents.
  *
- * This is a convenient wrapper on top of walkdir().
+ * This is a convenient wrapper on top of walkdir() and do_syncfs().
  */
 void
-fsync_dir_recurse(const char *dir)
+sync_dir_recurse(const char *dir, DataDirSyncMethod sync_method)
 {
-	/*
-	 * If possible, hint to the kernel that we're soon going to fsync the data
-	 * directory and its contents.
-	 */
+	switch (sync_method)
+	{
+		case DATA_DIR_SYNC_METHOD_SYNCFS:
+			{
+#ifndef HAVE_SYNCFS
+				pg_log_error("this build does not support sync method \"%s\"",
+							 "syncfs");
+				exit(EXIT_FAILURE);
+#else
+				/*
+				 * On Linux, we don't have to open every single file one by
+				 * one.  We can use syncfs() to sync the whole filesystem.
+				 */
+				do_syncfs(dir);
+#endif							/* HAVE_SYNCFS */
+			}
+			break;
+
+		case DATA_DIR_SYNC_METHOD_FSYNC:
+			{
+				/*
+				 * If possible, hint to the kernel that we're soon going to
+				 * fsync the data directory and its contents.
+				 */
 #ifdef PG_FLUSH_DATA_WORKS
-	walkdir(dir, pre_sync_fname, false);
+				walkdir(dir, pre_sync_fname, false);
 #endif
 
-	walkdir(dir, fsync_fname, false);
+				walkdir(dir, fsync_fname, false);
+			}
+			break;
+	}
 }
 
 /*
@@ -300,7 +415,7 @@ fsync_fname(const char *fname, bool isdir)
 	 */
 	if (returncode != 0 && !(isdir && (errno == EBADF || errno == EINVAL)))
 	{
-		pg_log_fatal("could not fsync file \"%s\": %m", fname);
+		pg_log_error("could not fsync file \"%s\": %m", fname);
 		(void) close(fd);
 		exit(EXIT_FAILURE);
 	}
@@ -370,7 +485,7 @@ durable_rename(const char *oldfile, const char *newfile)
 	{
 		if (fsync(fd) != 0)
 		{
-			pg_log_fatal("could not fsync file \"%s\": %m", newfile);
+			pg_log_error("could not fsync file \"%s\": %m", newfile);
 			close(fd);
 			exit(EXIT_FAILURE);
 		}
@@ -448,7 +563,7 @@ get_dirent_type(const char *path,
 		{
 			result = PGFILETYPE_ERROR;
 #ifdef FRONTEND
-			pg_log_generic(elevel, "could not stat file \"%s\": %m", path);
+			pg_log_generic(elevel, PG_LOG_PRIMARY, "could not stat file \"%s\": %m", path);
 #else
 			ereport(elevel,
 					(errcode_for_file_access(),
@@ -459,27 +574,155 @@ get_dirent_type(const char *path,
 			result = PGFILETYPE_REG;
 		else if (S_ISDIR(fst.st_mode))
 			result = PGFILETYPE_DIR;
-#ifdef S_ISLNK
 		else if (S_ISLNK(fst.st_mode))
 			result = PGFILETYPE_LNK;
-#endif
 	}
 
-#if defined(WIN32) && !defined(_MSC_VER)
+	return result;
+}
 
-	/*
-	 * If we're on native Windows (not Cygwin, which has its own POSIX
-	 * symlinks), but not using the MSVC compiler, then we're using a
-	 * readdir() emulation provided by the MinGW runtime that has no d_type.
-	 * Since the lstat() fallback code reports junction points as directories,
-	 * we need an extra system call to check if we should report them as
-	 * symlinks instead, following our convention.
-	 */
-	if (result == PGFILETYPE_DIR &&
-		!look_through_symlinks &&
-		pgwin32_is_junction(path))
-		result = PGFILETYPE_LNK;
+/*
+ * Compute what remains to be done after a possibly partial vectored read or
+ * write.  The part of 'source' beginning after 'transferred' bytes is copied
+ * to 'destination', and its length is returned.  'source' and 'destination'
+ * may point to the same array, for in-place adjustment.  A return value of
+ * zero indicates completion (for callers without a cheaper way to know that).
+ */
+int
+compute_remaining_iovec(struct iovec *destination,
+						const struct iovec *source,
+						int iovcnt,
+						size_t transferred)
+{
+	Assert(iovcnt > 0);
+
+	/* Skip wholly transferred iovecs. */
+	while (source->iov_len <= transferred)
+	{
+		transferred -= source->iov_len;
+		source++;
+		iovcnt--;
+
+		/* All iovecs transferred? */
+		if (iovcnt == 0)
+		{
+			/*
+			 * We don't expect the kernel to transfer more than we asked it
+			 * to, or something is out of sync.
+			 */
+			Assert(transferred == 0);
+			return 0;
+		}
+	}
+
+	/* Copy the remaining iovecs to the front of the array. */
+	if (source != destination)
+		memmove(destination, source, sizeof(*source) * iovcnt);
+
+	/* Adjust leading iovec, which may have been partially transferred. */
+	Assert(destination->iov_len > transferred);
+	destination->iov_base = (char *) destination->iov_base + transferred;
+	destination->iov_len -= transferred;
+
+	return iovcnt;
+}
+
+/*
+ * pg_pwritev_with_retry
+ *
+ * Convenience wrapper for pg_pwritev() that retries on partial write.  If an
+ * error is returned, it is unspecified how much has been written.
+ */
+ssize_t
+pg_pwritev_with_retry(int fd, const struct iovec *iov, int iovcnt, off_t offset)
+{
+	struct iovec iov_copy[PG_IOV_MAX];
+	ssize_t		sum = 0;
+	ssize_t		part;
+
+	/* We'd better have space to make a copy, in case we need to retry. */
+	if (iovcnt > PG_IOV_MAX)
+	{
+		errno = EINVAL;
+		return -1;
+	}
+
+	do
+	{
+		/* Write as much as we can. */
+		part = pg_pwritev(fd, iov, iovcnt, offset);
+		if (part < 0)
+			return -1;
+
+#ifdef SIMULATE_SHORT_WRITE
+		part = Min(part, 4096);
 #endif
 
-	return result;
+		/* Count our progress. */
+		sum += part;
+		offset += part;
+
+		/*
+		 * See what is left.  On the first loop we used the caller's array,
+		 * but in later loops we'll use our local copy that we are allowed to
+		 * mutate.
+		 */
+		iovcnt = compute_remaining_iovec(iov_copy, iov, iovcnt, part);
+		iov = iov_copy;
+	} while (iovcnt > 0);
+
+	return sum;
+}
+
+/*
+ * pg_pwrite_zeros
+ *
+ * Writes zeros to file worth "size" bytes at "offset" (from the start of the
+ * file), using vectored I/O.
+ *
+ * Returns the total amount of data written.  On failure, a negative value
+ * is returned with errno set.
+ */
+ssize_t
+pg_pwrite_zeros(int fd, size_t size, off_t offset)
+{
+	static const PGIOAlignedBlock zbuffer = {{0}};	/* worth BLCKSZ */
+	void	   *zerobuf_addr = unconstify(PGIOAlignedBlock *, &zbuffer)->data;
+	struct iovec iov[PG_IOV_MAX];
+	size_t		remaining_size = size;
+	ssize_t		total_written = 0;
+
+	/* Loop, writing as many blocks as we can for each system call. */
+	while (remaining_size > 0)
+	{
+		int			iovcnt = 0;
+		ssize_t		written;
+
+		for (; iovcnt < PG_IOV_MAX && remaining_size > 0; iovcnt++)
+		{
+			size_t		this_iov_size;
+
+			iov[iovcnt].iov_base = zerobuf_addr;
+
+			if (remaining_size < BLCKSZ)
+				this_iov_size = remaining_size;
+			else
+				this_iov_size = BLCKSZ;
+
+			iov[iovcnt].iov_len = this_iov_size;
+			remaining_size -= this_iov_size;
+		}
+
+		written = pg_pwritev_with_retry(fd, iov, iovcnt, offset);
+
+		if (written < 0)
+			return written;
+
+		offset += written;
+		total_written += written;
+	}
+
+	Assert(total_written == size);
+
+	return total_written;
 }

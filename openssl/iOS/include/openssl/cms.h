@@ -31,7 +31,7 @@
 #include <openssl/cmserr.h>
 #ifdef __cplusplus
 extern "C" {
-# endif
+#endif
 
 typedef struct CMS_EnvelopedData_st CMS_EnvelopedData;
 typedef struct CMS_ContentInfo_st CMS_ContentInfo;
@@ -510,7 +510,6 @@ int CMS_SharedInfo_encode(unsigned char **pder, X509_ALGOR *kekalg,
 
 #ifdef __cplusplus
 }
-#  endif
-# endif
+#endif
 #endif
 #endif

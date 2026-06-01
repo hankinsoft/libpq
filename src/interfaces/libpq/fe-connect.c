@@ -137,12 +137,6 @@ static int	ldapServiceLookup(const char *purl, PQconninfoOption *options,
 #else
 #define DefaultGSSMode "disable"
 #endif
-#ifdef ENABLE_GSS
-#include "fe-gssapi-common.h"
-#define DefaultGSSMode "prefer"
-#else
-#define DefaultGSSMode "disable"
-#endif
 
 /* ----------
  * Definition of the conninfo parameters and their fallback resources.
@@ -2186,53 +2180,6 @@ useKeepalives(PGconn *conn)
 	return val != 0 ? 1 : 0;
 }
 
-/*
- * Parse and try to interpret "value" as an integer value, and if successful,
- * store it in *result, complaining if there is any trailing garbage or an
- * overflow.  This allows any number of leading and trailing whitespaces.
- */
-static bool
-parse_int_param(const char *value, int *result, PGconn *conn,
-				const char *context)
-{
-	char	   *end;
-	long		numval;
-
-	Assert(value != NULL);
-
-	*result = 0;
-
-	/* strtol(3) skips leading whitespaces */
-	errno = 0;
-	numval = strtol(value, &end, 10);
-
-	/*
-	 * If no progress was done during the parsing or an error happened, fail.
-	 * This tests properly for overflows of the result.
-	 */
-	if (value == end || errno != 0 || numval != (int) numval)
-		goto error;
-
-	/*
-	 * Skip any trailing whitespace; if anything but whitespace remains before
-	 * the terminating character, fail
-	 */
-	while (*end != '\0' && isspace((unsigned char) *end))
-		end++;
-
-	if (*end != '\0')
-		goto error;
-
-	*result = numval;
-	return true;
-
-error:
-	appendPQExpBuffer(&conn->errorMessage,
-					  libpq_gettext("invalid integer value \"%s\" for connection option \"%s\"\n"),
-					  value, context);
-	return false;
-}
-
 #ifndef WIN32
 /*
  * Set the keepalive idle timer.
@@ -2544,8 +2491,6 @@ pqConnectDBComplete(PGconn *conn)
 			conn->status = CONNECTION_BAD;
 			return 0;
 		}
-		else					/* negative means 0 */
-			timeout = 0;
 	}
 
 	for (;;)
@@ -4149,8 +4094,6 @@ keep_going:						/* We will come back to here until there is
 					}
 				}
 
-		case CONNECTION_CHECK_TARGET:
-			{
 				/*
 				 * For non cancel requests we can release the address list
 				 * now. For cancel requests we never actually resolve

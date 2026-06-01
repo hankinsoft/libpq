@@ -307,9 +307,6 @@ SKM_DEFINE_STACK_OF_INTERNAL(PKCS7, PKCS7, PKCS7)
 /* CRLF ASCII canonicalisation */
 #define SMIME_ASCIICRLF 0x80000
 
-/* CRLF ASCII canonicalisation */
-# define SMIME_ASCIICRLF         0x80000
-
 DECLARE_ASN1_FUNCTIONS(PKCS7_ISSUER_AND_SERIAL)
 
 int PKCS7_ISSUER_AND_SERIAL_digest(PKCS7_ISSUER_AND_SERIAL *data,
@@ -434,5 +431,5 @@ BIO *BIO_new_PKCS7(BIO *out, PKCS7 *p7);
 
 #ifdef __cplusplus
 }
-# endif
+#endif
 #endif

@@ -56,5 +56,5 @@ void BUF_reverse(unsigned char *out, const unsigned char *in, size_t siz);
 
 #ifdef __cplusplus
 }
-# endif
+#endif
 #endif

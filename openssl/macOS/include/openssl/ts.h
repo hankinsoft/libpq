@@ -516,7 +516,6 @@ int TS_CONF_set_ess_cert_id_digest(CONF *conf, const char *section,
 
 #ifdef __cplusplus
 }
-#  endif
-# endif
+#endif
 #endif
 #endif

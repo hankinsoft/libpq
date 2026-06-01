@@ -30,7 +30,6 @@
 #include "fe-auth.h"
 #include "fe-secure-common.h"
 #include "libpq-int.h"
-#include "common/openssl.h"
 
 #ifdef WIN32
 #include "win32.h"

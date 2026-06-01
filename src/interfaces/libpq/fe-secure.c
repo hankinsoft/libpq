@@ -45,10 +45,6 @@
 #include "libpq-fe.h"
 #include "libpq-int.h"
 
-#include "fe-auth.h"
-#include "libpq-fe.h"
-#include "libpq-int.h"
-
 /*
  * Macros to handle disabling and then restoring the state of SIGPIPE handling.
  * On Windows, these are all no-ops since there's no SIGPIPEs.

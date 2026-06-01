@@ -460,11 +460,6 @@ int OPENSSL_gmtime_adj(struct tm *tm, int offset_day, long offset_sec);
 int OPENSSL_gmtime_diff(int *pday, int *psec,
     const struct tm *from, const struct tm *to);
 
-struct tm *OPENSSL_gmtime(const time_t *timer, struct tm *result);
-int OPENSSL_gmtime_adj(struct tm *tm, int offset_day, long offset_sec);
-int OPENSSL_gmtime_diff(int *pday, int *psec,
-                        const struct tm *from, const struct tm *to);
-
 /*
  * CRYPTO_memcmp returns zero iff the |len| bytes at |a| and |b| are equal.
  * It takes an amount of time dependent on |len|, but independent of the
@@ -589,5 +584,5 @@ void *OSSL_LIB_CTX_get_data(OSSL_LIB_CTX *ctx, int index);
 
 #ifdef __cplusplus
 }
-# endif
+#endif
 #endif

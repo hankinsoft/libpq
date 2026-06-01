@@ -515,11 +515,6 @@ typedef const ASN1_ITEM *ASN1_ITEM_EXP(void);
 #define ASN1_STRFLGS_ESC_2254 0x400
 
 /*
- * This flag specifies that RC2254 escaping shall be performed.
- */
-#define ASN1_STRFLGS_ESC_2254           0x400
-
-/*
  * All the string flags consistent with RFC2253, escaping control characters
  * isn't essential in RFC2253 but it is advisable anyway.
  */
@@ -865,11 +860,6 @@ int i2t_ASN1_OBJECT(char *buf, int buf_len, const ASN1_OBJECT *a);
 int a2d_ASN1_OBJECT(unsigned char *out, int olen, const char *buf, int num);
 ASN1_OBJECT *ASN1_OBJECT_create(int nid, unsigned char *data, int len,
     const char *sn, const char *ln);
-
-int ASN1_INTEGER_get_int64(int64_t *pr, const ASN1_INTEGER *a);
-int ASN1_INTEGER_set_int64(ASN1_INTEGER *a, int64_t r);
-int ASN1_INTEGER_get_uint64(uint64_t *pr, const ASN1_INTEGER *a);
-int ASN1_INTEGER_set_uint64(ASN1_INTEGER *a, uint64_t r);
 
 int ASN1_INTEGER_get_int64(int64_t *pr, const ASN1_INTEGER *a);
 int ASN1_INTEGER_set_int64(ASN1_INTEGER *a, int64_t r);

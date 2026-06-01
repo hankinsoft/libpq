@@ -2009,5 +2009,5 @@ DECLARE_ASN1_FUNCTIONS(OSSL_AA_DIST_POINT)
 
 #ifdef __cplusplus
 }
-# endif
+#endif
 #endif

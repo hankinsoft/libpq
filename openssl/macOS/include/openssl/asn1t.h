@@ -585,9 +585,6 @@ struct ASN1_ADB_TABLE_st {
 /* Field is embedded and not a pointer */
 #define ASN1_TFLG_EMBED (0x1 << 12)
 
-/* Field is embedded and not a pointer */
-# define ASN1_TFLG_EMBED         (0x1 << 12)
-
 /* This is the actual ASN1 item itself */
 
 struct ASN1_ITEM_st {
