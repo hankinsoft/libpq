@@ -6,7 +6,7 @@
  *
  * This should only be used if code is compiled with OpenSSL support.
  *
- * Portions Copyright (c) 1996-2021, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1996-2024, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
  * IDENTIFICATION
@@ -21,6 +21,7 @@
 #include "postgres_fe.h"
 #endif
 
+#include <openssl/err.h>
 #include <openssl/evp.h>
 
 #include "common/cryptohash.h"
@@ -30,7 +31,6 @@
 #ifndef FRONTEND
 #include "utils/memutils.h"
 #include "utils/resowner.h"
-#include "utils/resowner_private.h"
 #endif
 
 /*
@@ -46,6 +46,14 @@
 #define FREE(ptr) free(ptr)
 #endif
 
+/* Set of error states */
+typedef enum pg_cryptohash_errno
+{
+	PG_CRYPTOHASH_ERROR_NONE = 0,
+	PG_CRYPTOHASH_ERROR_DEST_LEN,
+	PG_CRYPTOHASH_ERROR_OPENSSL,
+} pg_cryptohash_errno;
+
 /*
  * Internal pg_cryptohash_ctx structure.
  *
@@ -55,6 +63,8 @@
 struct pg_cryptohash_ctx
 {
 	pg_cryptohash_type type;
+	pg_cryptohash_errno error;
+	const char *errreason;
 
 	EVP_MD_CTX *evpctx;
 
@@ -62,6 +72,45 @@ struct pg_cryptohash_ctx
 	ResourceOwner resowner;
 #endif
 };
+
+/* ResourceOwner callbacks to hold cryptohash contexts */
+#ifndef FRONTEND
+static void ResOwnerReleaseCryptoHash(Datum res);
+
+static const ResourceOwnerDesc cryptohash_resowner_desc =
+{
+	.name = "OpenSSL cryptohash context",
+	.release_phase = RESOURCE_RELEASE_BEFORE_LOCKS,
+	.release_priority = RELEASE_PRIO_CRYPTOHASH_CONTEXTS,
+	.ReleaseResource = ResOwnerReleaseCryptoHash,
+	.DebugPrint = NULL			/* the default message is fine */
+};
+
+/* Convenience wrappers over ResourceOwnerRemember/Forget */
+static inline void
+ResourceOwnerRememberCryptoHash(ResourceOwner owner, pg_cryptohash_ctx *ctx)
+{
+	ResourceOwnerRemember(owner, PointerGetDatum(ctx), &cryptohash_resowner_desc);
+}
+static inline void
+ResourceOwnerForgetCryptoHash(ResourceOwner owner, pg_cryptohash_ctx *ctx)
+{
+	ResourceOwnerForget(owner, PointerGetDatum(ctx), &cryptohash_resowner_desc);
+}
+#endif
+
+static const char *
+SSLerrmessage(unsigned long ecode)
+{
+	if (ecode == 0)
+		return NULL;
+
+	/*
+	 * This may return NULL, but we would fall back to a default error path if
+	 * that were the case.
+	 */
+	return ERR_reason_error_string(ecode);
+}
 
 /*
  * pg_cryptohash_create
@@ -80,7 +129,7 @@ pg_cryptohash_create(pg_cryptohash_type type)
 	 * allocation to avoid leaking.
 	 */
 #ifndef FRONTEND
-	ResourceOwnerEnlargeCryptoHash(CurrentResourceOwner);
+	ResourceOwnerEnlarge(CurrentResourceOwner);
 #endif
 
 	ctx = ALLOC(sizeof(pg_cryptohash_ctx));
@@ -88,10 +137,15 @@ pg_cryptohash_create(pg_cryptohash_type type)
 		return NULL;
 	memset(ctx, 0, sizeof(pg_cryptohash_ctx));
 	ctx->type = type;
+	ctx->error = PG_CRYPTOHASH_ERROR_NONE;
+	ctx->errreason = NULL;
 
 	/*
 	 * Initialization takes care of assigning the correct type for OpenSSL.
+	 * Also ensure that there aren't any unconsumed errors in the queue from
+	 * previous runs.
 	 */
+	ERR_clear_error();
 	ctx->evpctx = EVP_MD_CTX_create();
 
 	if (ctx->evpctx == NULL)
@@ -109,8 +163,7 @@ pg_cryptohash_create(pg_cryptohash_type type)
 
 #ifndef FRONTEND
 	ctx->resowner = CurrentResourceOwner;
-	ResourceOwnerRememberCryptoHash(CurrentResourceOwner,
-									PointerGetDatum(ctx));
+	ResourceOwnerRememberCryptoHash(CurrentResourceOwner, ctx);
 #endif
 
 	return ctx;
@@ -153,7 +206,18 @@ pg_cryptohash_init(pg_cryptohash_ctx *ctx)
 
 	/* OpenSSL internals return 1 on success, 0 on failure */
 	if (status <= 0)
+	{
+		ctx->errreason = SSLerrmessage(ERR_get_error());
+		ctx->error = PG_CRYPTOHASH_ERROR_OPENSSL;
+
+		/*
+		 * The OpenSSL error queue should normally be empty since we've
+		 * consumed an error, but cipher initialization can in FIPS-enabled
+		 * OpenSSL builds generate two errors so clear the queue here as well.
+		 */
+		ERR_clear_error();
 		return -1;
+	}
 	return 0;
 }
 
@@ -174,7 +238,11 @@ pg_cryptohash_update(pg_cryptohash_ctx *ctx, const uint8 *data, size_t len)
 
 	/* OpenSSL internals return 1 on success, 0 on failure */
 	if (status <= 0)
+	{
+		ctx->errreason = SSLerrmessage(ERR_get_error());
+		ctx->error = PG_CRYPTOHASH_ERROR_OPENSSL;
 		return -1;
+	}
 	return 0;
 }
 
@@ -195,27 +263,45 @@ pg_cryptohash_final(pg_cryptohash_ctx *ctx, uint8 *dest, size_t len)
 	{
 		case PG_MD5:
 			if (len < MD5_DIGEST_LENGTH)
+			{
+				ctx->error = PG_CRYPTOHASH_ERROR_DEST_LEN;
 				return -1;
+			}
 			break;
 		case PG_SHA1:
 			if (len < SHA1_DIGEST_LENGTH)
+			{
+				ctx->error = PG_CRYPTOHASH_ERROR_DEST_LEN;
 				return -1;
+			}
 			break;
 		case PG_SHA224:
 			if (len < PG_SHA224_DIGEST_LENGTH)
+			{
+				ctx->error = PG_CRYPTOHASH_ERROR_DEST_LEN;
 				return -1;
+			}
 			break;
 		case PG_SHA256:
 			if (len < PG_SHA256_DIGEST_LENGTH)
+			{
+				ctx->error = PG_CRYPTOHASH_ERROR_DEST_LEN;
 				return -1;
+			}
 			break;
 		case PG_SHA384:
 			if (len < PG_SHA384_DIGEST_LENGTH)
+			{
+				ctx->error = PG_CRYPTOHASH_ERROR_DEST_LEN;
 				return -1;
+			}
 			break;
 		case PG_SHA512:
 			if (len < PG_SHA512_DIGEST_LENGTH)
+			{
+				ctx->error = PG_CRYPTOHASH_ERROR_DEST_LEN;
 				return -1;
+			}
 			break;
 	}
 
@@ -223,7 +309,11 @@ pg_cryptohash_final(pg_cryptohash_ctx *ctx, uint8 *dest, size_t len)
 
 	/* OpenSSL internals return 1 on success, 0 on failure */
 	if (status <= 0)
+	{
+		ctx->errreason = SSLerrmessage(ERR_get_error());
+		ctx->error = PG_CRYPTOHASH_ERROR_OPENSSL;
 		return -1;
+	}
 	return 0;
 }
 
@@ -241,10 +331,60 @@ pg_cryptohash_free(pg_cryptohash_ctx *ctx)
 	EVP_MD_CTX_destroy(ctx->evpctx);
 
 #ifndef FRONTEND
-	ResourceOwnerForgetCryptoHash(ctx->resowner,
-								  PointerGetDatum(ctx));
+	if (ctx->resowner)
+		ResourceOwnerForgetCryptoHash(ctx->resowner, ctx);
 #endif
 
 	explicit_bzero(ctx, sizeof(pg_cryptohash_ctx));
 	FREE(ctx);
 }
+
+/*
+ * pg_cryptohash_error
+ *
+ * Returns a static string providing details about an error that
+ * happened during a computation.
+ */
+const char *
+pg_cryptohash_error(pg_cryptohash_ctx *ctx)
+{
+	/*
+	 * This implementation would never fail because of an out-of-memory error,
+	 * except when creating the context.
+	 */
+	if (ctx == NULL)
+		return _("out of memory");
+
+	/*
+	 * If a reason is provided, rely on it, else fallback to any error code
+	 * set.
+	 */
+	if (ctx->errreason)
+		return ctx->errreason;
+
+	switch (ctx->error)
+	{
+		case PG_CRYPTOHASH_ERROR_NONE:
+			return _("success");
+		case PG_CRYPTOHASH_ERROR_DEST_LEN:
+			return _("destination buffer too small");
+		case PG_CRYPTOHASH_ERROR_OPENSSL:
+			return _("OpenSSL failure");
+	}
+
+	Assert(false);				/* cannot be reached */
+	return _("success");
+}
+
+/* ResourceOwner callbacks */
+
+#ifndef FRONTEND
+static void
+ResOwnerReleaseCryptoHash(Datum res)
+{
+	pg_cryptohash_ctx *ctx = (pg_cryptohash_ctx *) DatumGetPointer(res);
+
+	ctx->resowner = NULL;
+	pg_cryptohash_free(ctx);
+}
+#endif
