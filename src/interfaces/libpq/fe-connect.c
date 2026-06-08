@@ -2115,6 +2115,8 @@ emitHostIdentityInfo(PGconn *conn, const char *host_addr)
 			displayed_host = conn->connhost[conn->whichhost].hostaddr;
 		else
 			displayed_host = conn->connhost[conn->whichhost].host;
+		if (displayed_host == NULL || displayed_host[0] == '\0')
+			displayed_host = "<unspecified>";
 		displayed_port = conn->connhost[conn->whichhost].port;
 		if (displayed_port == NULL || displayed_port[0] == '\0')
 			displayed_port = DEF_PGPORT_STR;
