@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>21E258</string>
+	<string>25F71</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -17,31 +17,35 @@
 	<key>CFBundlePackageType</key>
 	<string>FMWK</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>17.10</string>
 	<key>CFBundleSupportedPlatforms</key>
 	<array>
 		<string>MacOSX</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
-	<string>13C90</string>
+	<string>25F70</string>
 	<key>DTPlatformName</key>
 	<string>macosx</string>
 	<key>DTPlatformVersion</key>
-	<string>12.1</string>
+	<string>26.5</string>
 	<key>DTSDKBuild</key>
-	<string>21C46</string>
+	<string>25F70</string>
 	<key>DTSDKName</key>
-	<string>macosx12.1</string>
+	<string>macosx26.5</string>
 	<key>DTXcode</key>
-	<string>1320</string>
+	<string>2650</string>
 	<key>DTXcodeBuild</key>
-	<string>13C90</string>
+	<string>17F42</string>
+	<key>HSLibpqPatch</key>
+	<string>NULL-guard displayed_host in emitHostIdentityInfo (hankinsoft/libpq 4326253)</string>
+	<key>HSLibpqPostgresVersion</key>
+	<string>17.10</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.10</string>
+	<string>10.13</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2017 Kyle Hankinson. All rights reserved.</string>
 </dict>

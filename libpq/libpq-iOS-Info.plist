@@ -15,9 +15,13 @@
 	<key>CFBundlePackageType</key>
 	<string>FMWK</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>17.10</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>HSLibpqPostgresVersion</key>
+	<string>17.10</string>
+	<key>HSLibpqPatch</key>
+	<string>NULL-guard displayed_host in emitHostIdentityInfo (hankinsoft/libpq 4326253)</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2017-2018 Hankinsoft Development, Inc. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
