@@ -23,7 +23,7 @@
 #ifndef POSTGRES_EXT_H
 #define POSTGRES_EXT_H
 
-#include "pg_config_ext.h"
+#include <libpq/pg_config_ext.h>
 
 /*
  * Object ID is a fundamental type in Postgres.
