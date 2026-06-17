@@ -15,15 +15,18 @@ rm -rf "./build"
 # debug     = -configuration Debug
 xcodebuild archive -scheme "libpq-macos" -archivePath "./build/macos.xcarchive" SKIP_INSTALL=NO
 xcodebuild archive -scheme "libpq-ios" -archivePath "./build/ios.xcarchive" -sdk iphoneos SKIP_INSTALL=NO
+xcodebuild archive -scheme "libpq-ios" -archivePath "./build/ios_sim.xcarchive" -sdk iphonesimulator SKIP_INSTALL=NO
 
 # Remove the nested frameworks folder. They will be added in by the outer app.
 rm -rf "build/macos.xcarchive/Products/Library/Frameworks/libpq.framework/Versions/A/Frameworks"
 rm -rf "build/ios.xcarchive/Products/Library/Frameworks/libpq.framework/Frameworks"
+rm -rf "build/ios_sim.xcarchive/Products/Library/Frameworks/libpq.framework/Frameworks"
 
 rm -rf "Frameworks/libpq.xcframework"
 xcodebuild -create-xcframework \
   -framework "build/macos.xcarchive/Products/Library/Frameworks/libpq.framework" \
   -framework "build/ios.xcarchive/Products/Library/Frameworks/libpq.framework" \
+  -framework "build/ios_sim.xcarchive/Products/Library/Frameworks/libpq.framework" \
   -output "Frameworks/libpq.xcframework"
 
 rm -rf "./build"
