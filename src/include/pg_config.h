@@ -122,7 +122,12 @@
 
 /* Define to 1 if you have the declaration of `strchrnul', and to 0 if you
    don't. */
-#define HAVE_DECL_STRCHRNUL 1
+/* MANUALLY FORCED TO 0 (GH #1145): Apple only added strchrnul in macOS 15.4.
+   With our 11.0 deployment target it links as a WEAK import that binds to NULL
+   on macOS < 15.4, so dopr()'s call branches to 0x0 and crashes every Postgres
+   connect. Forcing 0 makes snprintf.c compile and use its own pg_strchrnul.
+   Do NOT regenerate this back to 1 against a recent SDK. */
+#define HAVE_DECL_STRCHRNUL 0
 
 /* Define to 1 if you have the declaration of `strlcat', and to 0 if you
    don't. */
